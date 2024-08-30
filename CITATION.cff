@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+title: Manim DSA
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Fabio
+    email: fabio.missagia@gmail.com
+    family-names: Missagia
+repository-code: 'https://github.com/F4bbi/manim-dsa'
+abstract: >-
+  Manim DSA, short for Manim Data Structures & Algorithms,
+  is a Manim plugin designed to animate common data
+  structures and algorithms.
+license: MIT
