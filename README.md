@@ -1,5 +1,5 @@
 <p align="center">
-    <a><img src="https://github.com/user-attachments/assets/18f7eff6-8bf8-40da-afc4-09eacd64514d" width="525" height="300"></a>
+    <a><img src="https://github.com/user-attachments/assets/7d18b40d-e455-4d2d-8a86-39b16401bbf0" width="525" height="300"></a>
     <br />
     <br />
     <a href="https://pypi.org/project/manim-dsa/"><img src="" alt="PyPI Latest Release"></a>
@@ -94,7 +94,7 @@ class Example(Scene):
 
 The result is as follows:
 
-https://github.com/user-attachments/assets/ecc28117-0d02-41df-b834-5e5683ca5c3a
+https://github.com/user-attachments/assets/05307dc9-65d9-4262-ae32-3fb53068c8e4
 
 ## Documentation
 
