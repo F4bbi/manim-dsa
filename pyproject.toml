@@ -1,0 +1,85 @@
+[tool.poetry]
+name = "manim-dsa"
+version = "0.1.0"
+description = "A Manim plugin to animate common data structures."
+authors = ["Fabio Missagia <fabio.missagia@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository="https://github.com/F4bbi/manim-dsa"
+packages = [{include = "manim_dsa"}]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.13"
+manim = "^0.18.1"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
+isort = "^5.13.2"
+ruff = "^0.6.2"
+
+[tool.black]
+line-length = 88
+
+[tool.ruff]
+line-length = 88
+extend-exclude = [
+  ".github",
+  "media",
+]
+fix = true
+
+[tool.ruff.lint]
+select = [
+  "A",
+  "B",
+  "C4",
+  "E",
+  "F",
+  "I",
+  "PT",
+  "SIM",
+  "UP",
+]
+
+ignore = [
+  # copyright variable
+  "A001",
+  # mutable argument defaults (too many changes)
+  "B006",
+  # No function calls in defaults
+  # ignored because np.array() and straight_path()
+  "B008",
+  # due to the import * used in manim
+  "F403",
+  "F405",
+  # fixtures not returning anything should have leading underscore
+  "PT004",
+  # Exception too broad (this would require lots of changes + re.escape) for little benefit
+  "PT011",
+  # as recommended by https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+  "E111",
+  "E114",
+  "E117",
+  "E501",
+]
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+  # unused expression
+  "B018",
+  # unused variable
+  "F841",
+]
+
+[project]
+requires-python = ">=3.9"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
