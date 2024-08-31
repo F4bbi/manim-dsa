@@ -2,7 +2,7 @@
     <a><img src="https://github.com/user-attachments/assets/7d18b40d-e455-4d2d-8a86-39b16401bbf0" width="525" height="300"></a>
     <br />
     <br />
-    <a href="https://pypi.org/project/manim-dsa/"><img src="" alt="PyPI Latest Release"></a>
+    <a href="https://pypi.org/project/manim-dsa/"><img src="https://img.shields.io/pypi/v/manim-dsa.svg?style=flat&logo=pypi" alt="PyPI Latest Release"></a>
     <a href="http://choosealicense.com/licenses/mit/"><img src="https://img.shields.io/badge/license-MIT-red.svg?style=flat" alt="MIT License"></a>
     <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black">
     <a href="https://pepy.tech/project/manim-dsa"><img src="https://pepy.tech/badge/manim-dsa" alt="Downloads"> </a>
