@@ -81,7 +81,6 @@ The ``pop()`` method allows you to remove the last element inserted in a ``MStac
 .. manim:: Pop
     :quality: high
 
-    from manim import *
     from manim_dsa import *
 
     class Pop(Scene):
