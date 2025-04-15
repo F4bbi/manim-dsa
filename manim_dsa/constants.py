@@ -151,7 +151,7 @@ class MArrayStyle(CollectionStyle):
             self.index: dict = {
                 "color": WHITE,
                 "font": "Cascadia Code",
-                "font_size": 32,
+                "font_size": 31,
             }
 
     class _BlueStyle(_DefaultStyle, CollectionStyle._BlueStyle):
@@ -160,7 +160,7 @@ class MArrayStyle(CollectionStyle):
             self.index: dict = {
                 "color": BLUE_D,
                 "font": "Cascadia Code",
-                "font_size": 32,
+                "font_size": 31,
             }
 
     class _PurpleStyle(_DefaultStyle, CollectionStyle._PurpleStyle):
@@ -169,7 +169,7 @@ class MArrayStyle(CollectionStyle):
             self.index: dict = {
                 "color": ManimColor("#fabcff"),
                 "font": "Cascadia Code",
-                "font_size": 32,
+                "font_size": 31,
             }
 
     class _GreenStyle(_DefaultStyle, CollectionStyle._GreenStyle):
@@ -178,7 +178,7 @@ class MArrayStyle(CollectionStyle):
             self.index: dict = {
                 "color": WHITE,
                 "font": "Cascadia Code",
-                "font_size": 32,
+                "font_size": 31,
             }
 
     DEFAULT = _DefaultStyle()
@@ -192,4 +192,4 @@ class VariableStyle(CollectionStyle):
 
 
 # -----------Label configs-----------
-DEFAULT_LABEL_ARGS: dict = {"color": BLUE_A, "font": "Cascadia Code", "font_size": 38}
+DEFAULT_LABEL_ARGS: dict = {"color": BLUE_A, "font": "Cascadia Code", "font_size": 40}
