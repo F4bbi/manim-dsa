@@ -198,8 +198,9 @@ class Logo(Scene):
         manim = Text("Manim", font="CMU Serif").scale(2).move_to(ORIGIN)
         # dsa = Text("DSA", font="CMU Serif").scale(2).next_to(manim, DOWN, DEFAULT_MOBJECT_TO_MOBJECT_BUFFER, RIGHT).shift(RIGHT*2)
         # obj = VGroup(manim, dsa).move_to(ORIGIN)
-        style = MArrayStyle.GREEN
+        style = MArrayStyle.PURPLE
         style.value["font"] = "Javiera"
+        style.value["weight"] = BOLD
         mArray = (
             MArray(["D", "S", "A"], style=style)
             .add_indexes(DOWN)

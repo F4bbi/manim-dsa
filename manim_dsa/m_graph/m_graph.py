@@ -116,23 +116,27 @@ class MGraph(VDict, Labelable):
         ----------
         line : Line or ArcBetweenPoints
             The line or arc that visually represents the edge between two nodes.
-        arrow : bool, optional
-            If True, an arrowhead is added to the edge. Defaults to True.
+        start : Point3D
+            The starting point of the edge.
+        end : Point3D
+            The ending point of the edge.
+        arrow : ArrowTriangleFilledTip or None
+            The arrow tip to be added to the edge, if any.
         """
 
         def __init__(
             self,
             line: Line | ArcBetweenPoints,
-            arrow: bool = True,
+            start: Point3D,
+            end: Point3D,
+            arrow: ArrowTriangleFilledTip | None,
         ):
             super().__init__()
-            self.line: Line | ArcBetweenPoints = line.set_z_index(0)
             self.label: Text = None
-
+            self.line: Line | ArcBetweenPoints = line.set_z_index(0)
+            self.line.put_start_and_end_on(start, end)
             if arrow:
-                self.line.add_tip()
-                self.line.get_tip().set_stroke(width=1)
-
+                self.line.add_tip(arrow)
             self += self.line
 
         def weighted(self, label: Text) -> Self:
@@ -243,10 +247,9 @@ class MGraph(VDict, Labelable):
         @abstractmethod
         def _get_line_start_end(
             self,
-            node1_center: Point3D,
-            node2_center: Point3D,
-            node1_radius: float,
-            node2_radius: float,
+            node1: Circle,
+            node2: Circle,
+            start_distance: float,
         ) -> tuple[Point3D, Point3D]:
             """Abstract method to determine the start and end points of a line between two nodes.
 
@@ -255,14 +258,12 @@ class MGraph(VDict, Labelable):
 
             Parameters
             ----------
-            node1_center : Point3D
-                The 3D coordinates of the center of the first node.
-            node2_center : Point3D
-                The 3D coordinates of the center of the second node.
-            node1_radius : float
-                The radius of the first node.
-            node2_radius : float
-                The radius of the second node.
+            node1 : Circle
+                The start node (circle) of the edge.
+            node2 : Circle
+                The destination node (circle) of the edge.
+            start_distance : float
+                Specifies how far the line starts from the node, rather than starting directly at its edge. Expressed as a percentage of the node’s radius.
 
             Returns
             -------
@@ -295,35 +296,28 @@ class MGraph(VDict, Labelable):
         ----------
         line : Line
             The Line object representing the edge.
-        node1_center : Point3D
-            The 3D coordinates of the center of the first node.
-        node2_center : Point3D
-            The 3D coordinates of the center of the second node.
-        node1_radius : float
-            The radius of the first node.
-        node2_radius : float
-            The radius of the second node.
-        arrow : bool, optional
-            Whether to include an arrow on the edge. Defaults to True.
+        node1 : Circle
+            The start node (circle) of the edge.
+        node2 : Circle
+            The destination node (circle) of the edge.
+        arrow : ArrowTriangleFilledTip or None
+            The arrow tip to be added to the edge, if any.
         """
 
         def __init__(
             self,
             line: Line,
-            node1_center: Point3D,
-            node2_center: Point3D,
-            node1_radius: float,
-            node2_radius: float,
-            arrow: bool = True,
+            node1: Circle,
+            node2: Circle,
+            arrow: ArrowTriangleFilledTip | None,
+            start_distance: float,
         ):
-            super().__init__(line, arrow)
             start, end = self._get_line_start_end(
-                node1_center,
-                node2_center,
-                node1_radius,
-                node2_radius,
+                node1,
+                node2,
+                start_distance,
             )
-            self.line.put_start_and_end_on(start, end)
+            super().__init__(line, start, end, arrow)
             self._add_highlight(self.line)
 
         def weighted(
@@ -353,32 +347,29 @@ class MGraph(VDict, Labelable):
 
         def _get_line_start_end(
             self,
-            node1_center: Point3D,
-            node2_center: Point3D,
-            node1_radius: float,
-            node2_radius: float,
+            node1: Circle,
+            node2: Circle,
+            start_distance: float,
         ) -> tuple[Point3D, Point3D]:
             """Determines the start and end points of the line based on node positions and radii.
 
             Parameters
             ----------
-            node1_center : Point3D
-                The 3D coordinates of the center of the first node.
-            node2_center : Point3D
-                The 3D coordinates of the center of the second node.
-            node1_radius : float
-                The radius of the first node.
-            node2_radius : float
-                The radius of the second node.
+            node1 : Circle
+                The start node (circle) of the edge.
+            node2 : Circle
+                The destination node (circle) of the edge.
+            start_distance : float
+                Specifies how far the line starts from the node, rather than starting directly at its edge. Expressed as a percentage of the node’s radius.
 
             Returns
             -------
             tuple[Point3D, Point3D]
                 A tuple containing two Point3D objects representing the start and end points of the line.
             """
-            direction = Line(node1_center, node2_center).get_unit_vector()
-            start = node1_center + direction * node1_radius
-            end = node2_center - direction * node2_radius
+            direction = Line(node1.get_center(), node2.get_center()).get_unit_vector()
+            start = node1.get_center() + direction * node1.get_radius() * (1 + start_distance)
+            end = node2.get_center() - direction * node2.get_radius() * (1 + start_distance)
 
             if np.array_equal(start, end):
                 start = LEFT
@@ -414,16 +405,12 @@ class MGraph(VDict, Labelable):
         ----------
         line : ArcBetweenPoints
             The ArcBetweenPoints object representing the edge.
-        node1_center : Point3D
-            The 3D coordinates of the center of the first node.
-        node2_center : Point3D
-            The 3D coordinates of the center of the second node.
-        node1_radius : float
-            The radius of the first node.
-        node2_radius : float
-            The radius of the second node.
-        arrow : bool, optional
-            Whether to include an arrow on the edge. Defaults to True.
+        node1 : Circle
+            The start node (circle) of the edge.
+        node2 : Circle
+            The destination node (circle) of the edge.
+        arrow : ArrowTriangleFilledTip or None
+            The arrow tip to be added to the edge, if any.
         node_angle : float, optional
             The angle between the line connecting the nodes and the direction of the arc. Defaults to PI/3.
         arc_angle : float, optional
@@ -433,23 +420,20 @@ class MGraph(VDict, Labelable):
         def __init__(
             self,
             line: ArcBetweenPoints,
-            node1_center: Point3D,
-            node2_center: Point3D,
-            node1_radius: float,
-            node2_radius: float,
-            arrow: bool = True,
+            node1: Circle,
+            node2: Circle,
+            arrow: ArrowTriangleFilledTip | None,
+            start_distance: float,
             node_angle: float = PI / 3,
             arc_angle: float = PI / 3,
         ):
-            super().__init__(line, arrow)
             start, end = self._get_line_start_end(
-                node1_center,
-                node2_center,
-                node1_radius,
-                node2_radius,
+                node1,
+                node2,
+                start_distance,
                 node_angle,
             )
-            self.line.put_start_and_end_on(start, end)
+            super().__init__(line, start, end, arrow)
             self.arc_angle: float = arc_angle
             self._add_highlight(self.line)
 
@@ -480,10 +464,9 @@ class MGraph(VDict, Labelable):
 
         def _get_line_start_end(
             self,
-            node1_center: Point3D,
-            node2_center: Point3D,
-            node1_radius: float,
-            node2_radius: float,
+            node1: Circle,
+            node2: Circle,
+            start_distance: float,
             start_angle: float = PI / 3,
         ) -> tuple[Point3D, Point3D]:
             """Calculates the start and end points of the arc considering node positions, radii, and the start angle.
@@ -493,14 +476,12 @@ class MGraph(VDict, Labelable):
 
             Parameters
             ----------
-            node1_center : Point3D
-                The 3D coordinates of the center of the first node.
-            node2_center : Point3D
-                The 3D coordinates of the center of the second node.
-            node1_radius : float
-                The radius of the first node.
-            node2_radius : float
-                The radius of the second node.
+            node1 : Circle
+                The start node (circle) of the edge.
+            node2 : Circle
+                The destination node (circle) of the edge.
+            start_distance : float, optional
+                Specifies how far the line starts from the node, rather than starting directly at its edge. Expressed as a percentage of the node’s radius.
             start_angle : float, optional
                 The angle between the edge direction and the line's start direction. Defaults to PI/3.
 
@@ -510,7 +491,7 @@ class MGraph(VDict, Labelable):
                 A tuple containing two `Point3D` objects representing the start and end points of the edge.
             """
 
-            edge_direction = Line(node1_center, node2_center).get_unit_vector()
+            edge_direction = Line(node1.get_center(), node2.get_center()).get_unit_vector()
             edge_angle = acos(edge_direction[0])
             if edge_direction[1] < 0:
                 edge_angle = -edge_angle
@@ -530,8 +511,8 @@ class MGraph(VDict, Labelable):
             direction_start = normalize(vector_start)
             direction_end = normalize(vector_end)
 
-            start = node1_center + direction_start * node1_radius
-            end = node2_center + direction_end * node2_radius
+            start = node1.get_center() + direction_start * node1.get_radius() * (1 + start_distance)
+            end = node2.get_center() + direction_end * node2.get_radius() * (1 + start_distance)
 
             return start, end
 
@@ -647,14 +628,14 @@ class MGraph(VDict, Labelable):
         reverse_exists = edge_name_rev in self.edges
 
         line = Line(**self.style.edge_line)
+        arrow = ArrowTriangleFilledTip(**self.style.edge_tip) if not reverse_exists else None
 
         new_edge = self.StraightEdge(
             line,
-            node1.get_center(),
-            node2.get_center(),
-            node1.get_radius(),
-            node2.get_radius(),
-            not reverse_exists,
+            node1,
+            node2,
+            arrow,
+            self.style.start_distance,
         )
         if weight:
             new_edge.weighted(
@@ -665,11 +646,10 @@ class MGraph(VDict, Labelable):
         if edge_name_rev in self.edges:
             new_edge_rev_node = self.StraightEdge(
                 line,
-                node2.get_center(),
-                node1.get_center(),
-                node2.get_radius(),
-                node1.get_radius(),
-                False,
+                node2,
+                node1,
+                None,
+                self.style.start_distance,
             )
             if weight:
                 new_edge.weighted(new_edge.label, label_distance)
@@ -736,18 +716,15 @@ class MGraph(VDict, Labelable):
 
         reverse_exists = edge_name_rev in self.edges
 
+        line = ArcBetweenPoints(LEFT, RIGHT, **self.style.edge_line, angle=arc_angle)
+        arrow = ArrowTriangleFilledTip(**self.style.edge_tip) if not reverse_exists else None
+
         new_edge = self.CurvedEdge(
-            ArcBetweenPoints(
-                LEFT,
-                RIGHT,
-                **self.style.edge_line,
-                angle=arc_angle,
-            ),
-            node1.get_center(),
-            node2.get_center(),
-            node1.get_radius(),
-            node2.get_radius(),
-            not reverse_exists,
+            line,
+            node1,
+            node2,
+            arrow,
+            self.style.start_distance,
             node_angle,
             arc_angle,
         )
@@ -760,11 +737,12 @@ class MGraph(VDict, Labelable):
         if edge_name_rev in self.edges:
             new_edge_rev = self.CurvedEdge(
                 new_edge.line,
-                node1.get_center(),
-                node2.get_center(),
-                node1.get_radius(),
-                node2.get_radius(),
-                False,
+                node1,
+                node2,
+                None,
+                self.style.start_distance,
+                node_angle,
+                arc_angle,
             )
             if weight:
                 new_edge.weighted(
@@ -821,14 +799,16 @@ class MGraph(VDict, Labelable):
         node1 = self.nodes[node1_name].circle
         node2 = self.nodes[node2_name].circle
 
+        line = ArcBetweenPoints(LEFT, RIGHT, **self.style.edge_line, angle=arc_angle)
+        arrow = ArrowTriangleFilledTip(**self.style.edge_tip)
+
         new_edge_1 = self.CurvedEdge(
-            ArcBetweenPoints(**self.style.edge_line, angle=arc_angle),
-            node1.get_center(),
-            node2.get_center(),
-            node1.get_radius(),
-            node2.get_radius(),
-            True,
+            line,
+            node1,
+            node2,
+            arrow,
             node_angle,
+            arc_angle
         )
         new_edge_1.weighted(
             Text(
@@ -838,13 +818,14 @@ class MGraph(VDict, Labelable):
             label_distance,
         )
 
+        line = ArcBetweenPoints(LEFT, RIGHT, **self.style.edge_line, angle=arc_angle)
+        arrow = ArrowTriangleFilledTip(**self.style.edge_tip)
+
         new_edge_2 = self.CurvedEdge(
-            ArcBetweenPoints(**self.style.edge_line, angle=arc_angle),
-            node1.get_center(),
-            node2.get_center(),
-            node1.get_radius(),
-            node2.get_radius(),
-            True,
+            line,
+            node2,
+            node1,
+            arrow,
             node_angle,
         )
         new_edge_2.weighted(
@@ -887,8 +868,6 @@ class MGraph(VDict, Labelable):
         )
 
         return Succession(
-            FadeOut(self.edges[edge_name], run_time=0.0001),
-            FadeOut(self.edges[edge_name_rev], run_time=0.00001),
             ReplacementTransform(
                 old_edge,
                 VGroup(
@@ -896,8 +875,7 @@ class MGraph(VDict, Labelable):
                     self.edges[edge_name_rev],
                 ),
                 **anim_args,
-            ),
-            # group=VGroup(self, old_edge)
+            )
         )
 
     def node_layout(self, layout: str = "kamada_kawai_layout") -> Self:
@@ -954,10 +932,9 @@ class MGraph(VDict, Labelable):
             node1 = self.nodes[edge[0]].circle
             node2 = self.nodes[edge[1]].circle
             start, end = self.edges[edge]._get_line_start_end(
-                node1.get_center(),
-                node2.get_center(),
-                node1.get_radius(),
-                node2.get_radius(),
+                node1,
+                node2,
+                self.style.start_distance,
             )
             mEdge = self.edges[edge]
             # Workaround cause tipped lines can't be changed of start/end, we have to delete the tip for a moment

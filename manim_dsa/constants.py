@@ -17,11 +17,18 @@ class MGraphStyle:
                 "color": GRAY,
                 "stroke_width": 7,
             }
+            self.edge_tip: dict = {
+                "stroke_width": 0.5,
+                "fill_opacity": 1,
+                "color": GRAY,
+            }
             self.edge_weight: dict = {
                 "color": WHITE,
                 "font_size": 21,
                 "font": "Javiera",
+                "weight": BOLD,
             }
+            self.start_distance: float = 0.2
 
     class _BlueStyle(_DefaultStyle):
         def __init__(self):
