@@ -1,6 +1,9 @@
 name: Upload Python Package
 
 on:
+  push:
+      branches:
+        - testing
   release:
     types: [published]
 
@@ -10,6 +13,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install system dependencies (Linux)
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: python3-opengl libpango1.0-dev xvfb freeglut3-dev
+          version: 1.0
 
       - name: Set up Python 3.13
         uses: actions/setup-python@v5
