@@ -1,6 +1,6 @@
 [project]
 name = "manim-dsa"
-version = "0.2.0"
+version = "0.3.0"
 description = "A Manim plugin to animate common data structures."
 authors = [{name = "Fabio Missagia", email = "fabio.missagia@gmail.com"}]
 license = "MIT"

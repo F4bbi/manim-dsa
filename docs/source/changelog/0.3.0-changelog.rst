@@ -1,0 +1,16 @@
+******
+v0.3.0
+******
+
+:Date: April 26, 2025
+
+The changes since Manim DSA release v0.2.0 are listed below.
+
+New Features
+------------
+
+- Changed project management tool from poetry to uv
+- Fixed bugged font sizes
+- Fixed logo SVGs in documentation
+- Fix too large arrow size for graph edges
+- Add automation to publish on PyPI on release
