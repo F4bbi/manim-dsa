@@ -73,7 +73,7 @@ class MIndexedElement(MElement):
 
 
 class MArray(MCollection):
-    """Manim Array: a class for visualizing the array structure using the Manim animation engine.
+    """Manim Array: a class for visualizing the array data structure using the Manim animation engine.
 
     Parameters
     ----------
@@ -133,7 +133,7 @@ class MArray(MCollection):
         return self
 
     @override_animate(append)
-    def _append_animation(self, value: Any, anim_args=None) -> Animation:
+    def _append_animation(self, value: Any, anim_args: dict = None) -> Animation:
         """Animates the addition of a new element to the array.
 
         Parameters
@@ -181,7 +181,7 @@ class MArray(MCollection):
         return self
 
     @override_animate(pop)
-    def _pop_animation(self, index: int = -1, anim_args=None) -> Animation:
+    def _pop_animation(self, index: int = -1, anim_args: dict = None) -> Animation:
         """Animates the removal of an element from the array.
 
         Parameters

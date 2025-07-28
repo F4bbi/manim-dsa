@@ -52,7 +52,7 @@ class MElement(VGroup, Highlightable):
         return self
 
     @override_animate(set_value)
-    def _set_value_animation(self, new_value: Any, anim_args=None) -> Animation:
+    def _set_value_animation(self, new_value: Any, anim_args: dict = None) -> Animation:
         """Creates an animation for updating the value of the element.
 
         Parameters
@@ -155,7 +155,7 @@ class MCollection(ABC, VGroup, Labelable):
         self.style.value["font_size"] = self._hidden_element.value.font_size
 
     @override_animate(append)
-    def _append_animation(self, value: Any, anim_args=None) -> Animation:
+    def _append_animation(self, value: Any, anim_args: dict = None) -> Animation:
         """Animates the addition of a new element to the collection.
 
         Parameters
@@ -201,7 +201,7 @@ class MCollection(ABC, VGroup, Labelable):
         return self
 
     @override_animate(pop)
-    def _pop_animation(self, index: int = -1, anim_args=None) -> Animation:
+    def _pop_animation(self, index: int = -1, anim_args: dict = None) -> Animation:
         """Animates the removal of an element from the collection.
 
         Parameters
@@ -271,7 +271,7 @@ class MCollection(ABC, VGroup, Labelable):
         i: int,
         j: int,
         path_arc: float = PI / 2,
-        anim_args=None,
+        anim_args: dict = None,
     ) -> Animation:
         """Animates the swap of two elements in the collection.
 

@@ -1,6 +1,19 @@
 from __future__ import annotations
 
-from manim import *
+import networkx as nx
+from manim import BLUE_A, BLUE_B, BLUE_D, BOLD, GRAY, RED, WHITE, ManimColor
+
+type GraphType = (
+    nx.DiGraph
+    # Example: [['1','2'], ['0'], ['0']] is (1)---(0)---(2)
+    | list[list[str]]
+    # Example: {'A':['B','C'], 'B':[], 'C':[]]} is (B)<--(A)-->(C)
+    | dict[str, list[str]]
+    # Example: [[('1', 3), ('2', 1)], [('0', 3)], [('0', 1)]] is (1)--<3>-(0)-<1>--(2)
+    | list[list[tuple[str, str | int]]]
+    # Example: {'A':[('B', 9), ('C', 2)], 'B':[], 'C':[]} is (B)<-<9>-(A)-<2>->(C)
+    | dict[str, list[tuple[str, str | int]]]
+)
 
 
 class MGraphStyle:
@@ -11,6 +24,7 @@ class MGraphStyle:
                 "color": WHITE,
                 "font": "Cascadia Code",
                 "font_size": 32,
+                "disable_ligatures": True,
                 "weight": BOLD,
             }
             self.edge_line: dict = {
@@ -24,7 +38,8 @@ class MGraphStyle:
             }
             self.edge_weight: dict = {
                 "color": WHITE,
-                "font_size": 21,
+                "font_size": 24,
+                "disable_ligatures": True,
                 "font": "Javiera",
                 "weight": BOLD,
             }
@@ -69,6 +84,31 @@ class MGraphStyle:
     GREEN = _GreenStyle()
 
 
+class MTreeStyle(MGraphStyle):
+    class _DefaultStyle(MGraphStyle._DefaultStyle):
+        def __init__(self):
+            super().__init__()
+            self.horizontal_gap: float = 10.0
+            self.vertical_gap: float = 2.0
+
+    class _BlueStyle(_DefaultStyle, MGraphStyle._BlueStyle):
+        def __init__(self):
+            super().__init__()
+
+    class _PurpleStyle(_DefaultStyle, MGraphStyle._PurpleStyle):
+        def __init__(self):
+            super().__init__()
+
+    class _GreenStyle(_DefaultStyle, MGraphStyle._GreenStyle):
+        def __init__(self):
+            super().__init__()
+
+    DEFAULT = _DefaultStyle()
+    BLUE = _BlueStyle()
+    PURPLE = _PurpleStyle()
+    GREEN = _GreenStyle()
+
+
 class CollectionStyle:
     class _DefaultStyle:
         def __init__(self):
@@ -82,6 +122,7 @@ class CollectionStyle:
                 "color": WHITE,
                 "font": "Cascadia Code",
                 "font_size": 48,
+                "disable_ligatures": True,
                 "weight": BOLD,
             }
 
@@ -158,7 +199,8 @@ class MArrayStyle(CollectionStyle):
             self.index: dict = {
                 "color": WHITE,
                 "font": "Cascadia Code",
-                "font_size": 31,
+                "font_size": 32,
+                "disable_ligatures": True,
             }
 
     class _BlueStyle(_DefaultStyle, CollectionStyle._BlueStyle):
@@ -167,7 +209,8 @@ class MArrayStyle(CollectionStyle):
             self.index: dict = {
                 "color": BLUE_D,
                 "font": "Cascadia Code",
-                "font_size": 31,
+                "font_size": 32,
+                "disable_ligatures": True,
             }
 
     class _PurpleStyle(_DefaultStyle, CollectionStyle._PurpleStyle):
@@ -176,7 +219,8 @@ class MArrayStyle(CollectionStyle):
             self.index: dict = {
                 "color": ManimColor("#fabcff"),
                 "font": "Cascadia Code",
-                "font_size": 31,
+                "font_size": 32,
+                "disable_ligatures": True,
             }
 
     class _GreenStyle(_DefaultStyle, CollectionStyle._GreenStyle):
@@ -185,7 +229,8 @@ class MArrayStyle(CollectionStyle):
             self.index: dict = {
                 "color": WHITE,
                 "font": "Cascadia Code",
-                "font_size": 31,
+                "font_size": 32,
+                "disable_ligatures": True,
             }
 
     DEFAULT = _DefaultStyle()

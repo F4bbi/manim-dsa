@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import networkx as nx
 from manim import *
 from manim.typing import Vector3D
+
+from manim_dsa.constants import GraphType
 
 
 def set_text(old_manim_text: Text, new_text: str) -> Text:
@@ -63,6 +66,55 @@ def TextReplace(scene: Scene, scene_mobj1: Group, mObj1: Text, mObj2: Text):
     )
     mObj1.set_opacity(1)
     new_mobj.set_opacity(0)
+
+
+def get_nx_graph(
+    graph: GraphType,
+) -> nx.Graph:
+    """
+    Convert a graph representation into a NetworkX graph.
+
+    Parameters
+    ----------
+    graph : GraphType
+        The graph representation to convert.
+
+    Returns
+    -------
+    nx.Graph
+        A NetworkX graph constructed from the input representation.
+    """
+    if isinstance(graph, nx.DiGraph):
+        # If the graph is already a NetworkX DiGraph, return it directly
+        return graph
+    nxGraph = nx.DiGraph()
+    if isinstance(graph, (list, dict)):
+        # The graph can be list of list or dict of list
+        for src, destinations in (
+            graph.items() if isinstance(graph, dict) else enumerate(graph)
+        ):
+            for dest in destinations:
+                # If the graph is not weighted
+                # Example: {'0': ['1', '2']}
+                if isinstance(dest, str):
+                    nxGraph.add_edge(str(src), dest)
+                # If the graph is weighted
+                # Example: {'0': [('1', 2), ('2', 4)]}
+                elif (
+                    isinstance(dest, tuple)
+                    and len(dest) == 2
+                    and isinstance(dest[0], str)
+                    and isinstance(dest[1], int)
+                ):
+                    dest, weight = dest
+                    nxGraph.add_weighted_edges_from([(str(src), dest, weight)])
+                else:
+                    raise ValueError(
+                        f"Unsupported edge format: {dest}. Expected str or (str, int)."
+                    )
+    else:
+        raise TypeError("Unsupported graph type")
+    return nxGraph
 
 
 class Labelable:
@@ -188,7 +240,7 @@ class Highlightable:
         self,
         stroke_color: ManimColor = RED,
         stroke_width: float = 8,
-        anim_args=None,
+        anim_args: dict = None,
     ) -> Animation:
         """
         Animation for highlighting the object.
@@ -236,7 +288,7 @@ class Highlightable:
         return self
 
     @override_animate(unhighlight)
-    def _unhighlight_animation(self, anim_args=None) -> Animation:
+    def _unhighlight_animation(self, anim_args: dict = None) -> Animation:
         """
         Animation for unhighlighting the object.
 

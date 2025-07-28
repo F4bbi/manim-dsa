@@ -11,7 +11,7 @@ from manim_dsa.utils.utils import *
 
 
 class MStack(MCollection):
-    """Manim Stack: a class for visualizing the stack structure using the Manim animation engine.
+    """Manim Stack: a class for visualizing the stack data structure using the Manim animation engine.
 
     Parameters
     ----------
@@ -91,7 +91,7 @@ class MStack(MCollection):
         return super().append(value)
 
     @override_animate(append)
-    def _append_animation(self, value: Any, anim_args=None) -> Succession:
+    def _append_animation(self, value: Any, anim_args: dict = None) -> Succession:
         """Creates an animation for appending a new value to the stack.
 
         Parameters
@@ -129,7 +129,7 @@ class MStack(MCollection):
         return super().pop(len(self.elements) - 1)
 
     @override_animate(pop)
-    def _pop_animation(self, anim_args=None) -> Succession:
+    def _pop_animation(self, anim_args: dict = None) -> Succession:
         """Creates an animation for removing the top element from the stack.
 
         Parameters

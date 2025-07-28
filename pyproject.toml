@@ -21,6 +21,7 @@ dev = [
 	"isort>=6.0.1",
 	"ruff>=0.11.5",
   "sphinx>=7.4.7",
+  "furo>=2024.8.6"
 ]
 
 [tool.black]
