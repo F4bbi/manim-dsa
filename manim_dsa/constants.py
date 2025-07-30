@@ -109,7 +109,7 @@ class MTreeStyle(MGraphStyle):
     GREEN = _GreenStyle()
 
 
-class CollectionStyle:
+class MCollectionStyle:
     class _DefaultStyle:
         def __init__(self):
             self.square: dict = {
@@ -168,21 +168,21 @@ class CollectionStyle:
     GREEN = _GreenStyle()
 
 
-class MStackStyle(CollectionStyle):
-    class _DefaultStyle(CollectionStyle._DefaultStyle):
+class MStackStyle(MCollectionStyle):
+    class _DefaultStyle(MCollectionStyle._DefaultStyle):
         def __init__(self):
             super().__init__()
             self.container: dict = {"color": RED}
 
-    class _BlueStyle(_DefaultStyle, CollectionStyle._BlueStyle):
+    class _BlueStyle(_DefaultStyle, MCollectionStyle._BlueStyle):
         def __init__(self):
             super().__init__()
 
-    class _PurpleStyle(_DefaultStyle, CollectionStyle._PurpleStyle):
+    class _PurpleStyle(_DefaultStyle, MCollectionStyle._PurpleStyle):
         def __init__(self):
             super().__init__()
 
-    class _GreenStyle(_DefaultStyle, CollectionStyle._GreenStyle):
+    class _GreenStyle(_DefaultStyle, MCollectionStyle._GreenStyle):
         def __init__(self):
             super().__init__()
 
@@ -192,8 +192,8 @@ class MStackStyle(CollectionStyle):
     GREEN = _GreenStyle()
 
 
-class MArrayStyle(CollectionStyle):
-    class _DefaultStyle(CollectionStyle._DefaultStyle):
+class MArrayStyle(MCollectionStyle):
+    class _DefaultStyle(MCollectionStyle._DefaultStyle):
         def __init__(self):
             super().__init__()
             self.index: dict = {
@@ -203,7 +203,7 @@ class MArrayStyle(CollectionStyle):
                 "disable_ligatures": True,
             }
 
-    class _BlueStyle(_DefaultStyle, CollectionStyle._BlueStyle):
+    class _BlueStyle(_DefaultStyle, MCollectionStyle._BlueStyle):
         def __init__(self):
             super().__init__()
             self.index: dict = {
@@ -213,7 +213,7 @@ class MArrayStyle(CollectionStyle):
                 "disable_ligatures": True,
             }
 
-    class _PurpleStyle(_DefaultStyle, CollectionStyle._PurpleStyle):
+    class _PurpleStyle(_DefaultStyle, MCollectionStyle._PurpleStyle):
         def __init__(self):
             super().__init__()
             self.index: dict = {
@@ -223,7 +223,7 @@ class MArrayStyle(CollectionStyle):
                 "disable_ligatures": True,
             }
 
-    class _GreenStyle(_DefaultStyle, CollectionStyle._GreenStyle):
+    class _GreenStyle(_DefaultStyle, MCollectionStyle._GreenStyle):
         def __init__(self):
             super().__init__()
             self.index: dict = {
@@ -239,7 +239,7 @@ class MArrayStyle(CollectionStyle):
     GREEN = _GreenStyle()
 
 
-class VariableStyle(CollectionStyle):
+class MVariableStyle(MCollectionStyle):
     pass
 
 

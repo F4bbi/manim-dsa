@@ -12,7 +12,7 @@ class MVariable(MElement, Labelable):
     def __init__(
         self,
         value: str,
-        style=VariableStyle.DEFAULT,
+        style=MVariableStyle.DEFAULT,
     ):
         self.style = style
         super().__init__(

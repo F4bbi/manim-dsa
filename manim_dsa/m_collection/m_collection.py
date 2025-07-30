@@ -82,8 +82,8 @@ class MCollection(ABC, VGroup, Labelable):
         The direction in which to arrange the elements. Default is RIGHT.
     margin : float, optional
         The distance between elements in the collection. Default is 0.
-    style : CollectionStyle._DefaultStyle, optional
-        The style configuration for the elements. Default is CollectionStyle.DEFAULT.
+    style : MCollectionStyle._DefaultStyle, optional
+        The style configuration for the elements. Default is MCollectionStyle.DEFAULT.
     """
 
     def __init__(
@@ -91,7 +91,7 @@ class MCollection(ABC, VGroup, Labelable):
         arr: list = [],
         direction: Vector3D = RIGHT,
         margin: float = 0,
-        style: CollectionStyle._DefaultStyle = CollectionStyle.DEFAULT,
+        style: MCollectionStyle._DefaultStyle = MCollectionStyle.DEFAULT,
     ):
         super().__init__()
         self.elements = []
