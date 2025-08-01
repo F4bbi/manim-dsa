@@ -13,20 +13,23 @@ def set_text(old_manim_text: Text, new_text: str) -> Text:
 
     Parameters
     ----------
-    old_manim_text : Text
+    old_manim_text : :class:`~manim.mobject.text.text_mobject.Text`
         The original Manim Text object whose content is being replaced.
     new_text : str
         The new text content to set.
 
     Returns
     -------
-    Text
+    :class:`~manim.mobject.text.text_mobject.Text`
         A new Text object with the updated content, matching the style and position of the original text.
     """
     NewText = type(old_manim_text)
     res = (
         NewText(
-            str(new_text), font=old_manim_text.font, font_size=old_manim_text.font_size
+            str(new_text),
+            font=old_manim_text.font,
+            font_size=old_manim_text.font_size,
+            weight=old_manim_text.weight,
         )
         .match_style(old_manim_text)
         .move_to(old_manim_text)
@@ -40,19 +43,19 @@ def TextReplace(scene: Scene, scene_mobj1: Group, mObj1: Text, mObj2: Text):
 
     Parameters
     ----------
-    scene : Scene
+    scene : :class:`~manim.scene.scene.Scene`
         The Manim Scene where the animation takes place.
-    scene_mobj1 : Group
-        The group containing `mObj1`, which is replaced in this group.
-    mObj1 : Text
+    scene_mobj1 : :class:`~manim.mobject.mobject.Group`
+        The group containing ``mObj1``, which is replaced in this group.
+    mObj1 : :class:`~manim.mobject.text.text_mobject.Text`
         The original text object to be replaced.
-    mObj2 : Text
-        The text object whose content will replace `mObj1`.
+    mObj2 : :class:`~manim.mobject.text.text_mobject.Text`
+        The text object whose content will replace ``mObj1``.
 
     Notes
     -----
-    The animation consists of fading out the old text (`mObj1`) while animating
-    the new text (`mObj2`) into its position.
+    The animation consists of fading out the old text (``mObj1``) while animating
+    the new text (``mObj2``) into its position.
     """
     old_mobj = mObj1.copy()
     scene_mobj1 -= mObj1
@@ -76,12 +79,12 @@ def get_nx_graph(
 
     Parameters
     ----------
-    graph : GraphType
+    graph : :class:`GraphType`
         The graph representation to convert.
 
     Returns
     -------
-    nx.Graph
+    :class:`networkx.Graph`
         A NetworkX graph constructed from the input representation.
     """
     if isinstance(graph, nx.DiGraph):
@@ -123,7 +126,7 @@ class Labelable:
 
     Attributes
     ----------
-    label : Text or None
+    label : :class:`~manim.mobject.text.text_mobject.Text` or ``None``
         The label associated with the object, if any.
     """
 
@@ -146,18 +149,18 @@ class Labelable:
 
         Parameters
         ----------
-        text : Text
+        text : :class:`~manim.mobject.text.text_mobject.Text`
             The Text object to use as the label.
-        direction : Vector3D, optional
-            The direction to place the label relative to the object (default is `UP`).
+        direction : :class:`~manim.typing.Vector3D`, optional
+            The direction to place the label relative to the object (default is ``UP``).
         buff : float, optional
-            The distance between the object and the label (default is 0.5).
+            The distance between the object and the label (default is ``0.5``).
         **kwargs : dict
             Additional keyword arguments for positioning.
 
         Returns
         -------
-        Labelable
+        :class:`Labelable`
             The instance with the label added.
         """
         self.label = text
@@ -171,7 +174,7 @@ class Labelable:
         Returns
         -------
         bool
-            `True` if the object has a label, otherwise `False`.
+            ``True`` if the object has a label, otherwise ``False``.
         """
         return self.label is not None
 
@@ -182,7 +185,7 @@ class Highlightable:
 
     Attributes
     ----------
-    highlighting : VMobject or None
+    highlighting : :class:`~manim.mobject.types.vectorized_mobject.VMobject` or None
         The highlight effect associated with the object, if any.
     """
 
@@ -200,7 +203,7 @@ class Highlightable:
 
         Parameters
         ----------
-        target : VMobject
+        target : :class:`~manim.mobject.types.vectorized_mobject.VMobject`
             The object to highlight.
         """
         self.__target = target
@@ -217,14 +220,14 @@ class Highlightable:
 
         Parameters
         ----------
-        stroke_color : ManimColor, optional
-            The color of the highlight stroke (default is `RED`).
+        stroke_color : :class:`~manim.utils.color.ManimColor`, optional
+            The color of the highlight stroke (default is ``RED``).
         stroke_width : float, optional
-            The width of the highlight stroke (default is 8).
+            The width of the highlight stroke (default is ``8``).
 
         Returns
         -------
-        Highlightable
+        :class:`Highlightable`
             The instance with the highlight applied.
         """
         self.set_highlight(stroke_color, stroke_width)
@@ -241,22 +244,22 @@ class Highlightable:
         stroke_color: ManimColor = RED,
         stroke_width: float = 8,
         anim_args: dict = None,
-    ) -> Animation:
+    ) -> Create:
         """
         Animation for highlighting the object.
 
         Parameters
         ----------
-        stroke_color : ManimColor, optional
-            The color of the highlight stroke (default is `RED`).
+        stroke_color : :class:`~manim.utils.color.ManimColor`, optional
+            The color of the highlight stroke (default is ``RED``).
         stroke_width : float, optional
-            The width of the highlight stroke (default is 8).
+            The width of the highlight stroke (default is ``8``).
         anim_args : dict, optional
             Additional arguments for the animation.
 
         Returns
         -------
-        Animation
+        :class:`~manim.animation.creation.Create`
             The animation for highlighting.
         """
         self.highlight(stroke_color, stroke_width)
@@ -268,10 +271,10 @@ class Highlightable:
 
         Parameters
         ----------
-        stroke_color : ManimColor, optional
-            The color of the highlight stroke (default is `RED`).
+        stroke_color : :class:`~manim.utils.color.ManimColor`, optional
+            The color of the highlight stroke (default is ``RED``).
         stroke_width : float, optional
-            The width of the highlight stroke (default is 8).
+            The width of the highlight stroke (default is ``8``).
         """
         self.highlighting.set_stroke(stroke_color, stroke_width)
 
@@ -281,14 +284,14 @@ class Highlightable:
 
         Returns
         -------
-        Highlightable
+        :class:`Highlightable`
             The instance with the highlight removed.
         """
         self -= self.highlighting
         return self
 
     @override_animate(unhighlight)
-    def _unhighlight_animation(self, anim_args: dict = None) -> Animation:
+    def _unhighlight_animation(self, anim_args: dict = None) -> FadeOut:
         """
         Animation for unhighlighting the object.
 
@@ -299,7 +302,7 @@ class Highlightable:
 
         Returns
         -------
-        Animation
+        :class:`~manim.animation.fading.FadeOut`
             The animation for unhighlighting.
         """
         if anim_args is None:

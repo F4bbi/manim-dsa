@@ -15,9 +15,9 @@ class MElement(VGroup, Highlightable):
 
     Parameters
     ----------
-    square : Rectangle
+    square : :class:`~manim.mobject.geometry.polygram.Rectangle`
         The square that visually represents the element.
-    value : Text
+    value : :class:`~manim.mobject.text.text_mobject.Text`
         The text that displays the value of the element.
     """
 
@@ -32,14 +32,14 @@ class MElement(VGroup, Highlightable):
     def set_value(self, new_value: Any) -> Self:
         """Updates the value of the element.
 
-        This method is necessary because the `set_text` method of the `Text` class in Manim
+        This method is necessary because the ``set_text`` method of the :class:`~manim.mobject.text.text_mobject.Text` class in Manim
         does not function as expected. Instead, this method manually removes the current text
         object and replaces it with a new one, re-centering it within the square.
 
         Parameters
         ----------
-        value : Any
-            The value to append. It will be converted to a string representation.
+        new_value : Any
+            The new value to set. It will be converted to a string representation.
 
         Returns
         -------
@@ -52,7 +52,7 @@ class MElement(VGroup, Highlightable):
         return self
 
     @override_animate(set_value)
-    def _set_value_animation(self, new_value: Any, anim_args: dict = None) -> Animation:
+    def _set_value_animation(self, new_value: Any, anim_args: dict = None) -> Indicate:
         """Creates an animation for updating the value of the element.
 
         Parameters
@@ -60,11 +60,11 @@ class MElement(VGroup, Highlightable):
         value : Any
             The value to append. It will be converted to a string representation.
         anim_args : dict, optional
-            Additional arguments for the animation. Default is None.
+            Additional arguments for the animation. Default is ``None``.
 
         Returns
         -------
-        Animation
+        Indicate
             An animation indicating the value change.
         """
         self.set_value(new_value)
@@ -72,18 +72,18 @@ class MElement(VGroup, Highlightable):
 
 
 class MCollection(ABC, VGroup, Labelable):
-    """An abstract base class representing a collection of MElements.
+    """An abstract base class representing a collection of :class:`MElement` objects.
 
     Parameters
     ----------
     arr : list, optional
         The initial list of values to populate the collection. Default is an empty list.
-    direction : Vector3D, optional
-        The direction in which to arrange the elements. Default is RIGHT.
+    direction : :class:`~manim.typing.Vector3D`, optional
+        The direction in which to arrange the elements. Default is ``RIGHT``.
     margin : float, optional
-        The distance between elements in the collection. Default is 0.
-    style : MCollectionStyle._DefaultStyle, optional
-        The style configuration for the elements. Default is MCollectionStyle.DEFAULT.
+        The distance between elements in the collection. Default is ``0``.
+    style : :class:`MCollectionStyle._DefaultStyle`, optional
+        The style configuration for the elements. Default is ``MCollectionStyle.DEFAULT``.
     """
 
     def __init__(
@@ -155,7 +155,7 @@ class MCollection(ABC, VGroup, Labelable):
         self.style.value["font_size"] = self._hidden_element.value.font_size
 
     @override_animate(append)
-    def _append_animation(self, value: Any, anim_args: dict = None) -> Animation:
+    def _append_animation(self, value: Any, anim_args: dict = None) -> Write:
         """Animates the addition of a new element to the collection.
 
         Parameters
@@ -163,11 +163,11 @@ class MCollection(ABC, VGroup, Labelable):
         value : Any
             The value to append. It will be converted to a string representation.
         anim_args : dict, optional
-            Additional arguments for the animation. Default is None.
+            Additional arguments for the animation. Default is ``None``.
 
         Returns
         -------
-        Animation
+        :class:`~manim.animation.creation.Write`
             An animation that displays the new element being written into the collection.
         """
         self.append(value)
@@ -185,7 +185,7 @@ class MCollection(ABC, VGroup, Labelable):
         Parameters
         ----------
         index : int, optional
-            The index of the element to be removed. Default is -1, which removes the last element.
+            The index of the element to be removed. Default is ``-1``, which removes the last element.
 
         Returns
         -------
@@ -201,19 +201,19 @@ class MCollection(ABC, VGroup, Labelable):
         return self
 
     @override_animate(pop)
-    def _pop_animation(self, index: int = -1, anim_args: dict = None) -> Animation:
+    def _pop_animation(self, index: int = -1, anim_args: dict = None) -> Succession:
         """Animates the removal of an element from the collection.
 
         Parameters
         ----------
         index : int, optional
-            The index of the element to be removed. Default is -1, which removes the last element.
+            The index of the element to be removed. Default is ``-1``, which removes the last element.
         anim_args : dict, optional
-            Additional arguments for the animation. Default is None.
+            Additional arguments for the animation. Default is ``None``.
 
         Returns
         -------
-        Animation
+        :class:`~manim.animation.composition.Succession`
             An animation that shows the element being faded out and the remaining elements being shifted.
         """
         popped_element = self._logic_pop(index)
@@ -272,7 +272,7 @@ class MCollection(ABC, VGroup, Labelable):
         j: int,
         path_arc: float = PI / 2,
         anim_args: dict = None,
-    ) -> Animation:
+    ) -> ApplyMethod:
         """Animates the swap of two elements in the collection.
 
         Parameters
@@ -282,13 +282,13 @@ class MCollection(ABC, VGroup, Labelable):
         j : int
             The index of the second element to be swapped.
         path_arc : float, optional
-            The arc angle for the path of the swap animation. Default is PI/2.
+            The arc angle for the path of the swap animation. Default is ``PI/2``.
         anim_args : dict, optional
-            Additional arguments for the animation. Default is None.
+            Additional arguments for the animation. Default is ``None``.
 
         Returns
         -------
-        Animation
+        :class:`~manim.animation.transform.ApplyMethod`
             An animation that shows the elements being swapped.
         """
         anim = ApplyMethod(self._visual_swap, i, j, path_arc=path_arc, **anim_args)
@@ -302,11 +302,6 @@ class MCollection(ABC, VGroup, Labelable):
             else self._hidden_element.square
         )
 
-    def __getitem__(self, key: int):
-        if key >= len(self.elements):
-            raise Exception("Index out of bounds!")
-        return self.elements[key]
-
     @override
     def add_label(
         self,
@@ -319,20 +314,20 @@ class MCollection(ABC, VGroup, Labelable):
 
         Parameters
         ----------
-        text : Text
+        text : :class:`~manim.mobject.text.text_mobject.Text`
             The text label to be added.
-        direction : Vector3D, optional
-            The direction in which to position the label (Default is UP).
+        direction : :class:`~manim.typing.Vector3D`, optional
+            The direction in which to position the label. Default is ``UP``.
         buff : float, optional
-            The buffer distance between the label and the element (Default is 0.5).
+            The buffer distance between the label and the element. Default is 0.5.
         **kwargs :
-            Additional keyword arguments that are passed to the function next_to() of the
-            underlying add_label method.
+            Additional keyword arguments that are passed to the ``next_to()`` method of the
+            underlying ``add_label`` method.
 
         Returns
         -------
         self
-            The instance of the :class:`MCollection` with the swapped elements.
+            The instance of the :class:`MCollection` with the added label.
         """
         super().add_label(text, direction, buff, **kwargs)
 

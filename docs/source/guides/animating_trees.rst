@@ -77,10 +77,11 @@ Below are two examples of creating a tree:
 Note how the node positioning is performed automatically using a hierarchical layout!
 
 .. _customizing_a_mtree:
+
 Customizing a MTree
 --------------------
 
-ManimDSA provides various options for customizing the colors and styles of a MTree. You can use these options by passing a predefined style configuration from the ``MTreeStyle`` class using the ``style`` parameter. Refer to ``MTreeStyle`` for more details. Alternatively, you can define a custom style to suit your needs.
+ManimDSA provides various options for customizing the colors and styles of a ``MTree``. You can use these options by passing a predefined style configuration from the ``MTreeStyle`` class using the ``style`` parameter. Refer to ``MTreeStyle`` for more details. Alternatively, you can define a custom style to suit your needs.
 
 In the following example, we use the ``PURPLE`` style for the ``MTree``.
 

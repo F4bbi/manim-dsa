@@ -18,20 +18,21 @@ class MGraph(VDict, Labelable):
 
     Parameters
     ----------
-    graph : list[list[str]] or dict[str, list[str]] for unweighted graph
-            list[list[tuple[str, str | int]]] or dict[str, list[tuple[str, str | int]]] for weighted graph
-        The graph representation, which can be weighted or unweighted.
-    nodes_position : dict[str, Vector3D], optional
+    graph : :class:`GraphType`
+        The graph representation, which can be weighted or unweighted. Can be:
+        - ``list[list[str]]`` or ``dict[str, list[str]]`` for unweighted graph
+        - ``list[list[tuple[str, str | int]]]`` or ``dict[str, list[tuple[str, str | int]]]`` for weighted graph
+    nodes_position : dict[str, :class:`~manim.typing.Vector3D`], optional
         A dictionary mapping node labels to their positions as 3D vectors. Defaults to an empty dict.
-    style : :class:`MGraphStyle`, optional
-        The visual style to be applied to the graph. Defaults to MGraphStyle.DEFAULT.
+    style : :class:`MGraphStyle._DefaultStyle`, optional
+        The style configuration to be applied to the graph. Defaults to ``MGraphStyle.DEFAULT``.
     """
 
     def __init__(
         self,
         graph: GraphType,
         nodes_position: dict[str, Vector3D] = {},
-        style=MGraphStyle.DEFAULT,
+        style: MGraphStyle._DefaultStyle = MGraphStyle.DEFAULT,
     ):
         super().__init__()
 
@@ -59,9 +60,9 @@ class MGraph(VDict, Labelable):
 
         Parameters
         ----------
-        circle : Circle
+        circle : :class:`~manim.mobject.geometry.arc.Circle`
             The circular shape that visually represents the node.
-        label : Text
+        label : :class:`~manim.mobject.text.text_mobject.Text`
             The text label associated with the node.
         """
 
@@ -89,13 +90,13 @@ class MGraph(VDict, Labelable):
 
         Parameters
         ----------
-        line : Line or ArcBetweenPoints
+        line : :class:`~manim.mobject.geometry.line.Line` or :class:`~manim.mobject.geometry.arc.ArcBetweenPoints`
             The line or arc that visually represents the edge between two nodes.
-        start : Point3D
+        start : :class:`~manim.typing.Point3D`
             The starting point of the edge.
-        end : Point3D
+        end : :class:`~manim.typing.Point3D`
             The ending point of the edge.
-        arrow : ArrowTriangleFilledTip or None
+        arrow : :class:`~manim.mobject.geometry.tips.ArrowTriangleFilledTip` or ``None``
             The arrow tip to be added to the edge, if any.
         """
 
@@ -119,13 +120,13 @@ class MGraph(VDict, Labelable):
 
             Parameters
             ----------
-            label : Text
+            label : :class:`~manim.mobject.text.text_mobject.Text`
                 The label to be assigned to the edge, representing its weight or any other relevant information.
 
             Returns
             -------
             self
-                The instance of the :class:`Edge` with the applied highlight.
+                The instance of the :class:`MGraph.Edge` with the applied highlight.
             """
             self.label: Text = label
             self += self.label
@@ -137,7 +138,7 @@ class MGraph(VDict, Labelable):
             Returns
             -------
             bool
-                True if the edge has a label (indicating it is weighted), False otherwise.
+                ``True`` if the edge has a label (indicating it is weighted), ``False`` otherwise.
             """
             return self.label is not None
 
@@ -151,15 +152,15 @@ class MGraph(VDict, Labelable):
 
             Parameters
             ----------
-            stroke_color : ManimColor, optional
-                The color to be used for highlighting the edge. Defaults to RED.
+            stroke_color : :class:`~manim.utils.color.ManimColor`, optional
+                The color to be used for highlighting the edge. Defaults to ``RED``.
             stroke_width : float, optional
-                The width of the stroke used for highlighting. Defaults to 8.
+                The width of the stroke used for highlighting. Defaults to ``8``.
 
             Returns
             -------
             self
-                The instance of the :class:`Edge` with the applied highlight.
+                The instance of the :class:`MGraph.Edge` with the applied highlight.
             """
             self.set_highlight(stroke_color, stroke_width)
             self.highlighting.move_to(self.line)
@@ -172,21 +173,21 @@ class MGraph(VDict, Labelable):
             stroke_color: ManimColor = RED,
             stroke_width: float = 8,
             anim_args: dict = None,
-        ) -> Animation:
+        ) -> Create:
             """Returns the animation for highlighting the edge.
 
             Parameters
             ----------
-            stroke_color : ManimColor, optional
-                The color to be used for highlighting. Defaults to RED.
+            stroke_color : :class:`~manim.utils.color.ManimColor`, optional
+                The color to be used for highlighting. Defaults to ``RED``.
             stroke_width : float, optional
-                The width of the stroke used for highlighting. Defaults to 8.
+                The width of the stroke used for highlighting. Defaults to ``8``.
             anim_args : dict, optional
-                Additional arguments to be passed to the animation. Defaults to None.
+                Additional arguments to be passed to the animation. Defaults to ``None``.
 
             Returns
             -------
-            Animation
+            :class:`~manim.animation.creation.Create`
                 The animation that highlights the edge.
             """
             self.highlight(stroke_color, stroke_width)
@@ -201,15 +202,15 @@ class MGraph(VDict, Labelable):
 
             Parameters
             ----------
-            stroke_color : ManimColor, optional
-                The color to be used for highlighting the edge. Defaults to RED.
+            stroke_color : :class:`~manim.utils.color.ManimColor`, optional
+                The color to be used for highlighting the edge. Defaults to ``RED``.
             stroke_width : float, optional
-                The width of the stroke used for highlighting. Defaults to 8.
+                The width of the stroke used for highlighting. Defaults to ``8``.
 
             Returns
             -------
             self
-                The instance of the :class:`Edge` with the applied highlight.
+                The instance of the :class:`MGraph.Edge` with the applied highlight.
             """
             super().set_highlight(stroke_color, stroke_width)
             if self.line.has_tip():
@@ -233,17 +234,17 @@ class MGraph(VDict, Labelable):
 
             Parameters
             ----------
-            node1 : Circle
+            node1 : :class:`~manim.mobject.geometry.arc.Circle`
                 The start node (circle) of the edge.
-            node2 : Circle
+            node2 : :class:`~manim.mobject.geometry.arc.Circle`
                 The destination node (circle) of the edge.
             start_distance : float
                 Specifies how far the line starts from the node, rather than starting directly at its edge. Expressed as a percentage of the node’s radius.
 
             Returns
             -------
-            Tuple[Point3D, Point3D]
-                A tuple containing two `Point3D` objects representing the start and end points
+            tuple[:class:`~manim.typing.Point3D`, :class:`~manim.typing.Point3D`]
+                A tuple containing two :class:`~manim.typing.Point3D` objects representing the start and end points
                 of the line connecting the two nodes.
             """
             pass
@@ -259,8 +260,8 @@ class MGraph(VDict, Labelable):
 
             Returns
             -------
-            Point3D
-                The `Point3D` coordinates representing the position of the label.
+            :class:`~manim.typing.Point3D`
+                The :class:`~manim.typing.Point3D` coordinates representing the position of the label.
             """
             pass
 
@@ -269,13 +270,13 @@ class MGraph(VDict, Labelable):
 
         Parameters
         ----------
-        line : Line
+        line : :class:`~manim.mobject.geometry.line.Line`
             The Line object representing the edge.
-        node1 : Circle
+        node1 : :class:`~manim.mobject.geometry.arc.Circle`
             The start node (circle) of the edge.
-        node2 : Circle
+        node2 : :class:`~manim.mobject.geometry.arc.Circle`
             The destination node (circle) of the edge.
-        arrow : ArrowTriangleFilledTip or None
+        arrow : :class:`~manim.mobject.geometry.tips.ArrowTriangleFilledTip` or ``None``
             The arrow tip to be added to the edge, if any.
         """
 
@@ -304,15 +305,15 @@ class MGraph(VDict, Labelable):
 
             Parameters
             ----------
-            label : Text
+            label : :class:`~manim.mobject.text.text_mobject.Text`
                 The label to be assigned to the edge.
             label_distance : float, optional
-                The distance from the edge to position the label. Defaults to 0.3.
+                The distance from the edge to position the label. Defaults to ``0.3``.
 
             Returns
             -------
             self
-                The instance of the :class:`Edge` with the assigned label.
+                The instance of the :class:`MGraph.Edge` with the applied highlight.ssigned label.
             """
             super().weighted(label)
             self.label_distance: float = label_distance
@@ -330,17 +331,17 @@ class MGraph(VDict, Labelable):
 
             Parameters
             ----------
-            node1 : Circle
+            node1 : :class:`~manim.mobject.geometry.arc.Circle`
                 The start node (circle) of the edge.
-            node2 : Circle
+            node2 : :class:`~manim.mobject.geometry.arc.Circle`
                 The destination node (circle) of the edge.
             start_distance : float
                 Specifies how far the line starts from the node, rather than starting directly at its edge. Expressed as a percentage of the node’s radius.
 
             Returns
             -------
-            tuple[Point3D, Point3D]
-                A tuple containing two Point3D objects representing the start and end points of the line.
+            tuple[:class:`~manim.typing.Point3D`, :class:`~manim.typing.Point3D`]
+                A tuple containing two :class:`~manim.typing.Point3D` objects representing the start and end points of the line.
             """
             c1, c2 = node1.get_center(), node2.get_center()
             r1, r2 = node1.get_radius(), node2.get_radius()
@@ -365,7 +366,7 @@ class MGraph(VDict, Labelable):
 
             Returns
             -------
-            Point3D
+            :class:`~manim.typing.Point3D`
                 The 3D coordinates where the label should be positioned.
             """
             direction: Point3D = self.line.get_unit_vector()
@@ -381,18 +382,18 @@ class MGraph(VDict, Labelable):
 
         Parameters
         ----------
-        line : ArcBetweenPoints
+        line : :class:`~manim.mobject.geometry.arc.ArcBetweenPoints`
             The ArcBetweenPoints object representing the edge.
-        node1 : Circle
+        node1 : :class:`~manim.mobject.geometry.arc.Circle`
             The start node (circle) of the edge.
-        node2 : Circle
+        node2 : :class:`~manim.mobject.geometry.arc.Circle`
             The destination node (circle) of the edge.
-        arrow : ArrowTriangleFilledTip or None
+        arrow : :class:`~manim.mobject.geometry.tips.ArrowTriangleFilledTip` or ``None``
             The arrow tip to be added to the edge, if any.
         node_angle : float, optional
-            The angle between the line connecting the nodes and the direction of the arc. Defaults to PI/3.
+            The angle between the line connecting the nodes and the direction of the arc. Defaults to ``PI/3``.
         arc_angle : float, optional
-            The angle of the arc between the two nodes. Defaults to PI/3.
+            The angle of the arc between the two nodes. Defaults to ``PI/3``.
         """
 
         def __init__(
@@ -424,15 +425,15 @@ class MGraph(VDict, Labelable):
 
             Parameters
             ----------
-            label : Text
+            label : :class:`~manim.mobject.text.text_mobject.Text`
                 The label to be assigned to the edge.
             label_distance : float, optional
-                The distance from the edge to position the label. Defaults to 0.3.
+                The distance from the edge to position the label. Defaults to ``0.3``.
 
             Returns
             -------
             self
-                The instance of the :class:`Edge` with the assigned label.
+                The instance of the :class:`MGraph.Edge` with the applied highlight.ssigned label.
             """
             super().weighted(label)
             self.label_distance: float = label_distance
@@ -454,19 +455,19 @@ class MGraph(VDict, Labelable):
 
             Parameters
             ----------
-            node1 : Circle
+            node1 : :class:`~manim.mobject.geometry.arc.Circle`
                 The start node (circle) of the edge.
-            node2 : Circle
+            node2 : :class:`~manim.mobject.geometry.arc.Circle`
                 The destination node (circle) of the edge.
             start_distance : float, optional
                 Specifies how far the line starts from the node, rather than starting directly at its edge. Expressed as a percentage of the node’s radius.
             start_angle : float, optional
-                The angle between the edge direction and the line's start direction. Defaults to PI/3.
+                The angle between the edge direction and the line's start direction. Defaults to ``PI/3``.
 
             Returns
             -------
-            tuple[Point3D, Point3D]
-                A tuple containing two `Point3D` objects representing the start and end points of the edge.
+            tuple[:class:`~manim.typing.Point3D`, :class:`~manim.typing.Point3D`]
+                A tuple containing two :class:`~manim.typing.Point3D` objects representing the start and end points of the edge.
             """
             c1, c2 = node1.get_center(), node2.get_center()
             r1, r2 = node1.get_radius(), node2.get_radius()
@@ -507,7 +508,7 @@ class MGraph(VDict, Labelable):
 
             Returns
             -------
-            Point3D
+            :class:`~manim.typing.Point3D`
                 The 3D coordinates where the label should be positioned relative to the edge.
             """
             arc = ArcBetweenPoints(
@@ -531,8 +532,8 @@ class MGraph(VDict, Labelable):
         ----------
         name : str
             The name of the node to be added.
-        position : Point3D, optional
-            The 3D position where the node will be placed. Defaults to ORIGIN.
+        position : :class:`~manim.typing.Point3D`, optional
+            The 3D position where the node will be placed. Defaults to ``ORIGIN``.
 
         Returns
         -------
@@ -553,21 +554,21 @@ class MGraph(VDict, Labelable):
         name: str,
         position: Point3D = ORIGIN,
         anim_args: dict = None,
-    ) -> Animation:
+    ) -> Create:
         """Animates the addition of a new node to the graph.
 
         Parameters
         ----------
         name : str
             The name of the node to be added.
-        position : Point3D, optional
-            The 3D position where the node will be placed. Defaults to ORIGIN.
+        position : :class:`~manim.typing.Point3D`, optional
+            The 3D position where the node will be placed. Defaults to ``ORIGIN``.
         anim_args : dict, optional
-            Additional arguments to be passed to the animation. Defaults to None.
+            Additional arguments to be passed to the animation. Defaults to ``None``.
 
         Returns
         -------
-        Animation
+        :class:`~manim.animation.creation.Create`
             The animation for adding the node.
         """
         self.add_node(name, position)
@@ -591,7 +592,7 @@ class MGraph(VDict, Labelable):
         weight : float, optional
             The weight of the edge. If not provided, the edge will be unweighted.
         label_distance : float, optional
-            The distance from the edge where the label should be placed. Defaults to 0.2.
+            The distance from the edge where the label should be placed. Defaults to ``0.2``.
 
         Returns
         -------
@@ -653,7 +654,7 @@ class MGraph(VDict, Labelable):
         weight: float = None,
         label_distance: float = 0.3,
         anim_args: dict = None,
-    ) -> Animation:
+    ) -> Create:
         """Animates the addition of an edge between two nodes in the graph.
 
         Parameters
@@ -665,13 +666,13 @@ class MGraph(VDict, Labelable):
         weight : float, optional
             The weight of the edge. If not provided, the edge will be unweighted.
         label_distance : float, optional
-            The distance from the edge where the label should be placed. Defaults to 0.3.
+            The distance from the edge where the label should be placed. Defaults to ``0.3``.
         anim_args : dict, optional
-            Additional arguments to be passed to the animation. Defaults to None.
+            Additional arguments to be passed to the animation. Defaults to ``None``.
 
         Returns
         -------
-        Animation
+        :class:`~manim.animation.creation.Create`
             The animation for adding the edge.
         """
         self.add_edge(node1_name, node2_name, weight, label_distance)
@@ -701,11 +702,11 @@ class MGraph(VDict, Labelable):
         weight : float, optional
             The weight of the edge. If not provided, the edge will be unweighted.
         label_distance : float, optional
-            The distance from the edge where the label should be placed. Defaults to 0.2.
+            The distance from the edge where the label should be placed. Defaults to ``0.2``.
         node_angle : float, optional
-            The start angle of the arc between the two nodes. Defaults to PI/3.
+            The start angle of the arc between the two nodes. Defaults to ``PI/3``.
         arc_angle : float, optional
-            The angle of the arc between the two nodes. Defaults to PI/3.
+            The angle of the arc between the two nodes. Defaults to ``PI/3``.
 
         Returns
         -------
@@ -775,7 +776,7 @@ class MGraph(VDict, Labelable):
         node_angle: float = PI / 3,
         arc_angle: float = PI / 3,
         anim_args: dict = None,
-    ) -> Animation:
+    ) -> Create:
         """Animates the addition of a curved edge between two nodes in the graph.
 
         Parameters
@@ -787,17 +788,17 @@ class MGraph(VDict, Labelable):
         weight : float, optional
             The weight of the edge. If not provided, the edge will be unweighted.
         label_distance : float, optional
-            The distance from the edge where the label should be placed. Defaults to 0.2.
+            The distance from the edge where the label should be placed. Defaults to ``0.2``.
         node_angle : float, optional
-            The start angle of the arc between the two nodes. Defaults to PI/3.
+            The start angle of the arc between the two nodes. Defaults to ``PI/3``.
         arc_angle : float, optional
-            The angle of the arc between the two nodes. Defaults to PI/3.
+            The angle of the arc between the two nodes. Defaults to ``PI/3``.
         anim_args : dict, optional
-            Additional arguments to be passed to the animation. Defaults to None.
+            Additional arguments to be passed to the animation. Defaults to ``None``.
 
         Returns
         -------
-        Animation
+        :class:`~manim.animation.creation.Create`
             The animation for adding the curved edge.
         """
         self.add_curved_edge(
@@ -913,7 +914,7 @@ class MGraph(VDict, Labelable):
         pos : dict[str, tuple[float, float]]
             A dictionary mapping node labels to their positions as tuples of (x, y) coordinates.
         fit : bool, optional
-            If True, the graph will be scaled to fit within the frame. Defaults to True.
+            If ``True``, the graph will be scaled to fit within the frame. Defaults to ``True``.
 
         Returns
         -------
@@ -1007,17 +1008,17 @@ class MGraph(VDict, Labelable):
 
         Parameters
         ----------
-        color : ManimColor, optional
+        color : :class:`~manim.utils.color.ManimColor`, optional
             The color to be used for highlighting the nodes.
-            Defaults to RED.
+            Defaults to ``RED``.
         width : float, optional
             The stroke width of the highlight.
-            Defaults to 8.
+            Defaults to ``8``.
 
         Returns
         -------
         self
-            The updated instance of the MGraph with all nodes highlighted.
+            The updated instance of the :class:`MGraph` with all nodes highlighted.
         """
         for node in self.nodes:
             self.nodes[node].set_highlight(color, width)
@@ -1032,12 +1033,12 @@ class MGraph(VDict, Labelable):
 
         Parameters
         ----------
-        color : ManimColor, optional
+        color : :class:`~manim.utils.color.ManimColor`, optional
             The color to be used for highlighting the edges.
-            Defaults to RED.
+            Defaults to ``RED``.
         width : float, optional
             The stroke width of the highlight.
-            Defaults to 8.
+            Defaults to ``8``.
 
         Returns
         -------
@@ -1059,14 +1060,14 @@ class MGraph(VDict, Labelable):
 
         Parameters
         ----------
-        text : Text
+        text : :class:`~manim.mobject.text.text_mobject.Text`
             The label text to be added to the graph.
-        direction : Vector3D, optional
+        direction : :class:`~manim.typing.Vector3D`, optional
             The direction in which the label should be positioned relative to the graph.
-            Defaults to UP.
+            Defaults to ``UP``.
         buff : float, optional
             The distance between the graph and the label.
-            Defaults to 0.5.
+            Defaults to ``0.5``.
         **kwargs
             Additional keyword arguments that are passed to the function next_to() of the
             underlying add_label method.

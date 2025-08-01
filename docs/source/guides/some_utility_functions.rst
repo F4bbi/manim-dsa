@@ -3,6 +3,8 @@ Some Utility Functions
 
 This section introduces additional utility functions common to all data structures provided by ManimDSA. These include the ability to add a label to a created data structure and to highlight specific elements within it.
 
+.. _adding_a_label:
+
 Adding a label to a data structure
 ----------------------------------
 

@@ -27,7 +27,8 @@ Here's an example that creates a ``MStack`` with a list of five numbers.
             self.play(Create(mStack))
             self.wait()
 
-.. _customizing_a_stack:
+.. _customizing_a_mstack:
+
 Customizing a MStack
 --------------------
 

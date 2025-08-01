@@ -21,7 +21,7 @@ class RandomOperations(Scene):
         mArray = (
             MArray(arr, style=MArrayStyle.PURPLE)
             .add_indexes(DOWN)
-            .add_label(Text("Array", **DEFAULT_LABEL_ARGS), DOWN)
+            .add_label(Text("Array", font="Cascadia Code"), DOWN)
         )
         mArray.shift(UP * 1.5 + LEFT * 4)
         self.play(Create(mArray))

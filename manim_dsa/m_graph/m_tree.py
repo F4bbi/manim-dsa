@@ -13,20 +13,21 @@ class MTree(MGraph):
 
     Parameters
     ----------
-    graph : list[list[str]] or dict[str, list[str]] for unweighted tree
-            list[list[tuple[str, str | int]]] or dict[str, list[tuple[str, str | int]]] for weighted tree
-        The tree representation, which can be weighted or unweighted.
+    tree : :class:`GraphType`
+        The tree representation, which can be weighted or unweighted. Can be:
+        - ``list[list[str]]`` or ``dict[str, list[str]]`` for unweighted tree
+        - ``list[list[tuple[str, str | int]]]`` or ``dict[str, list[tuple[str, str | int]]]`` for weighted tree
     root : str | None, optional
-        The root node of the tree. If None, topological sorting is used to determine the root.
-    style : :class:`MTreeStyle`, optional
-        The visual style to be applied to the tree. Defaults to MTreeStyle.DEFAULT.
+        The root node of the tree. If ``None``, topological sorting is used to determine the root.
+    style : :class:`MTreeStyle._DefaultStyle`, optional
+        The style configuration to be applied to the tree. Defaults to ``MTreeStyle.DEFAULT``.
     """
 
     def __init__(
         self,
         tree: GraphType,
         root: str | None = None,
-        style: MTreeStyle = MTreeStyle.DEFAULT,
+        style: MTreeStyle._DefaultStyle = MTreeStyle.DEFAULT,
     ):
         self.root = self._get_root(tree, root)
         super().__init__(tree, style=style)
@@ -52,7 +53,7 @@ class MTree(MGraph):
 
         Parameters
         ----------
-        G : nx.Graph
+        G : :class:`~networkx.Graph`
             The graph representing the tree structure.
         root : str
             The root node of the tree.
@@ -64,7 +65,7 @@ class MTree(MGraph):
         Returns
         -------
         dict
-            A dictionary mapping each node to its (x, y) position in the layout.
+            A dictionary mapping each node to its ``(x, y)`` position in the layout.
         """
 
         def __hierarchy_pos(

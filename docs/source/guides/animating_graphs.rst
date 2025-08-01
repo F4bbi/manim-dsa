@@ -81,6 +81,7 @@ Below are two examples of creating a graph:
             self.wait()
 
 .. _customizing_a_mgraph:
+
 Customizing a MGraph
 --------------------
 
@@ -298,6 +299,7 @@ In the example below, we create a MGraph with three nodes and use the ``show_bac
             self.wait()
 
 .. _node_layout:
+
 Automatically positioning nodes in a MGraph
 -------------------------------------------
 
