@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+from typing import Any
+
 from manim import *
 from manim.typing import Vector3D
-from typing import Any
 
 from manim_dsa.constants import *
 from manim_dsa.m_collection.m_collection import MElement
@@ -19,6 +20,7 @@ class MVariable(MElement, Labelable):
     style : :class:`MVariableStyle._DefaultStyle`, optional
         The style configuration to be applied to the variable. Defaults to ``MVariableStyle.DEFAULT``.
     """
+
     def __init__(
         self,
         value: Any,

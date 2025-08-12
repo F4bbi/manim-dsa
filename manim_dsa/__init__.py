@@ -1,12 +1,6 @@
 from importlib.metadata import version
 
-from .constants import (
-    MArrayStyle,
-    MGraphStyle,
-    MStackStyle,
-    MTreeStyle,
-    MVariableStyle
-)
+from .constants import MArrayStyle, MGraphStyle, MStackStyle, MTreeStyle, MVariableStyle
 from .m_collection.m_array import MArray
 from .m_collection.m_stack import MStack
 from .m_graph.m_graph import MGraph
@@ -25,5 +19,5 @@ __all__ = [
     "MStackStyle",
     "MGraphStyle",
     "MTreeStyle",
-    "MVariableStyle"
+    "MVariableStyle",
 ]

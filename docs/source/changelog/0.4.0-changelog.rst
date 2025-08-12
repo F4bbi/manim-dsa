@@ -1,0 +1,24 @@
+******
+v0.4.0
+******
+
+:Date: August 12, 2025
+
+The changes since Manim DSA release v0.3.0 are listed below.
+
+New Features
+------------
+
+- Add :class:`~manim_dsa.m_graph.m_tree.MTree` data structure for hierarchical tree visualization
+- Add :class:`~manim_dsa.m_variable.m_variable.MVariable` data structure for variable visualization
+
+Changes
+-------
+
+- Rename ``CollectionStyle`` to :class:`~manim_dsa.constants.MCollectionStyle` for naming consistency
+- Standardize all docstrings to use proper reStructuredText formatting
+
+Bug Fixes
+----------
+
+- Fix inconsistencies in docstrings, like type annotations and broken references

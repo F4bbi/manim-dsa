@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-import networkx as nx
 from typing import TypeAlias
+
+import networkx as nx
 from manim import BLUE_B, BLUE_D, BOLD, GRAY, RED, WHITE, ManimColor
 
 GraphType: TypeAlias = (
@@ -46,9 +47,10 @@ class MGraphStyle:
     GREEN : :class:`MGraphStyle._GreenStyle`
         A green style configuration for graphs.
     """
+
     class _DefaultStyle:
         """Default style configuration for graphs.
-        
+
         Provides a clean, minimal appearance with white elements on transparent backgrounds.
         This serves as the base style that other variants can inherit from and modify.
 
@@ -65,6 +67,7 @@ class MGraphStyle:
         start_distance : float
             Distance from edge to the weight label.
         """
+
         def __init__(self):
             self.node_circle: dict = {"color": WHITE, "stroke_width": 6, "radius": 0.33}
             self.node_label: dict = {
@@ -98,6 +101,7 @@ class MGraphStyle:
         Inherits from :class:`~manim_dsa.constants.MGraphStyle._DefaultStyle` and modifies the node circle color
         and fill color to blue shades, providing a visually distinct appearance for graph nodes.
         """
+
         def __init__(self):
             super().__init__()
             self.node_circle: dict = {
@@ -114,6 +118,7 @@ class MGraphStyle:
         Inherits from :class:`~manim_dsa.constants.MGraphStyle._DefaultStyle` and modifies the node circle color
         and fill color to purple shades, providing a visually distinct appearance for graph nodes.
         """
+
         def __init__(self):
             super().__init__()
             self.node_circle: dict = {
@@ -130,6 +135,7 @@ class MGraphStyle:
         Inherits from :class:`~manim_dsa.constants.MGraphStyle._DefaultStyle` and modifies the node circle color
         and fill color to green shades, providing a visually distinct appearance for graph nodes.
         """
+
         def __init__(self):
             super().__init__()
             self.node_circle: dict = {
@@ -164,6 +170,7 @@ class MTreeStyle(MGraphStyle):
     GREEN : :class:`MTreeStyle._GreenStyle`
         A green style configuration for trees.
     """
+
     class _DefaultStyle(MGraphStyle._DefaultStyle):
         """Default style configuration for trees.
 
@@ -177,6 +184,7 @@ class MTreeStyle(MGraphStyle):
         vertical_gap : float
             The vertical spacing between parent and child nodes in the tree.
         """
+
         def __init__(self):
             super().__init__()
             self.horizontal_gap: float = 10.0
@@ -188,6 +196,7 @@ class MTreeStyle(MGraphStyle):
         Combines the tree layout properties from :class:`~manim_dsa.constants.MTreeStyle._DefaultStyle`
         with the blue color scheme from :class:`~manim_dsa.constants.MGraphStyle._BlueStyle`.
         """
+
         def __init__(self):
             super().__init__()
 
@@ -197,6 +206,7 @@ class MTreeStyle(MGraphStyle):
         Combines the tree layout properties from :class:`~manim_dsa.constants.MTreeStyle._DefaultStyle`
         with the purple color scheme from :class:`~manim_dsa.constants.MGraphStyle._PurpleStyle`.
         """
+
         def __init__(self):
             super().__init__()
 
@@ -205,6 +215,7 @@ class MTreeStyle(MGraphStyle):
         Combines the tree layout properties from :class:`~manim_dsa.constants.MTreeStyle._DefaultStyle`
         with the green color scheme from :class:`~manim_dsa.constants.MGraphStyle._GreenStyle`.
         """
+
         def __init__(self):
             super().__init__()
 
@@ -232,9 +243,10 @@ class MCollectionStyle:
     GREEN : :class:`MCollectionStyle._GreenStyle`
         A green style configuration for collections.
     """
+
     class _DefaultStyle:
         """Default style configuration for collections.
-        
+
         Provides a clean, minimal appearance with white elements on transparent backgrounds.
         This serves as the base style that other collection variants can inherit from and modify.
 
@@ -245,6 +257,7 @@ class MCollectionStyle:
         value : dict
             Configuration for the appearance of text values within collection elements, including color, font, and size.
         """
+
         def __init__(self):
             self.square: dict = {
                 "color": WHITE,
@@ -266,6 +279,7 @@ class MCollectionStyle:
         Inherits from :class:`~manim_dsa.constants.MCollectionStyle._DefaultStyle` and modifies the square color
         and fill color to blue shades, providing a visually distinct appearance for collection elements.
         """
+
         def __init__(self):
             super().__init__()
             self.square: dict = {
@@ -279,10 +293,11 @@ class MCollectionStyle:
 
     class _PurpleStyle(_DefaultStyle):
         """Purple style configuration for collections.
-        
+
         Inherits from :class:`~manim_dsa.constants.MCollectionStyle._DefaultStyle` and modifies the square color
         and fill color to purple shades, providing a visually distinct appearance for collection elements.
         """
+
         def __init__(self):
             super().__init__()
             self.square: dict = {
@@ -300,6 +315,7 @@ class MCollectionStyle:
         Inherits from :class:`~manim_dsa.constants.MCollectionStyle._DefaultStyle` and modifies the square color
         and fill color to green shades, providing a visually distinct appearance for collection elements.
         """
+
         def __init__(self):
             super().__init__()
             self.square: dict = {
@@ -335,6 +351,7 @@ class MStackStyle(MCollectionStyle):
     GREEN : :class:`MStackStyle._GreenStyle`
         A green style configuration for stacks.
     """
+
     class _DefaultStyle(MCollectionStyle._DefaultStyle):
         """Default style configuration for stacks.
 
@@ -346,6 +363,7 @@ class MStackStyle(MCollectionStyle):
         container : dict
             Configuration for the appearance of the stack container, including color.
         """
+
         def __init__(self):
             super().__init__()
             self.container: dict = {"color": RED}
@@ -356,6 +374,7 @@ class MStackStyle(MCollectionStyle):
         Combines the stack container properties from :class:`~manim_dsa.constants.MStackStyle._DefaultStyle`
         with the blue color scheme from :class:`~manim_dsa.constants.MCollectionStyle._BlueStyle`.
         """
+
         def __init__(self):
             super().__init__()
 
@@ -365,6 +384,7 @@ class MStackStyle(MCollectionStyle):
         Combines the stack container properties from :class:`~manim_dsa.constants.MStackStyle._DefaultStyle`
         with the purple color scheme from :class:`~manim_dsa.constants.MCollectionStyle._PurpleStyle`.
         """
+
         def __init__(self):
             super().__init__()
 
@@ -374,6 +394,7 @@ class MStackStyle(MCollectionStyle):
         Combines the stack container properties from :class:`~manim_dsa.constants.MStackStyle._DefaultStyle`
         with the green color scheme from :class:`~manim_dsa.constants.MCollectionStyle._GreenStyle`.
         """
+
         def __init__(self):
             super().__init__()
 
@@ -401,6 +422,7 @@ class MArrayStyle(MCollectionStyle):
     GREEN : :class:`MArrayStyle._GreenStyle`
         A green style configuration for arrays.
     """
+
     class _DefaultStyle(MCollectionStyle._DefaultStyle):
         """Default style configuration for arrays.
 
@@ -412,6 +434,7 @@ class MArrayStyle(MCollectionStyle):
         index : dict
             Configuration for the appearance of array index labels, including color, font, and size.
         """
+
         def __init__(self):
             super().__init__()
             self.index: dict = {
@@ -427,6 +450,7 @@ class MArrayStyle(MCollectionStyle):
         Combines the array index properties from :class:`~manim_dsa.constants.MArrayStyle._DefaultStyle`
         with the blue color scheme from :class:`~manim_dsa.constants.MCollectionStyle._BlueStyle`.
         """
+
         def __init__(self):
             super().__init__()
             self.index: dict = {
@@ -442,6 +466,7 @@ class MArrayStyle(MCollectionStyle):
         Combines the array index properties from :class:`~manim_dsa.constants.MArrayStyle._DefaultStyle`
         with the purple color scheme from :class:`~manim_dsa.constants.MCollectionStyle._PurpleStyle`.
         """
+
         def __init__(self):
             super().__init__()
             self.index: dict = {
@@ -457,6 +482,7 @@ class MArrayStyle(MCollectionStyle):
         Combines the array index properties from :class:`~manim_dsa.constants.MArrayStyle._DefaultStyle`
         with the green color scheme from :class:`~manim_dsa.constants.MCollectionStyle._GreenStyle`.
         """
+
         def __init__(self):
             super().__init__()
             self.index: dict = {
@@ -490,12 +516,14 @@ class MVariableStyle(MCollectionStyle):
     GREEN : :class:`MVariableStyle._GreenStyle`
         A green style configuration for variables.
     """
+
     class _DefaultStyle(MCollectionStyle._DefaultStyle):
         """Default style configuration for variables.
 
         Inherits from :class:`~manim_dsa.constants.MCollectionStyle._DefaultStyle` and provides the base
         styling for variable visualization elements.
         """
+
         def __init__(self):
             super().__init__()
 
@@ -504,6 +532,7 @@ class MVariableStyle(MCollectionStyle):
         Combines the variable properties from :class:`~manim_dsa.constants.MVariableStyle._DefaultStyle`
         with the blue color scheme from :class:`~manim_dsa.constants.MCollectionStyle._BlueStyle`.
         """
+
         def __init__(self):
             super().__init__()
 
@@ -512,6 +541,7 @@ class MVariableStyle(MCollectionStyle):
         Combines the variable properties from :class:`~manim_dsa.constants.MVariableStyle._DefaultStyle`
         with the purple color scheme from :class:`~manim_dsa.constants.MCollectionStyle._PurpleStyle`.
         """
+
         def __init__(self):
             super().__init__()
 
@@ -521,6 +551,7 @@ class MVariableStyle(MCollectionStyle):
         Combines the variable properties from :class:`~manim_dsa.constants.MVariableStyle._DefaultStyle`
         with the green color scheme from :class:`~manim_dsa.constants.MCollectionStyle._GreenStyle`.
         """
+
         def __init__(self):
             super().__init__()
 
