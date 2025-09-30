@@ -90,7 +90,7 @@ The ``pop()`` method allows you to remove the last element inserted in a ``MStac
                 MStack(
                     [1, 2, 3, 4, 5],
                     style=MStackStyle.BLUE
-                )#.scale(0.7) for some strange reason it's not needed T_T
+                ).scale(0.7)
             )
             self.play(Create(mStack))
             self.play(mStack.animate.pop())
