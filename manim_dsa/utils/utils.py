@@ -96,6 +96,7 @@ def get_nx_graph(
         for src, destinations in (
             graph.items() if isinstance(graph, dict) else enumerate(graph)
         ):
+            nxGraph.add_node(str(src))
             for dest in destinations:
                 # If the graph is not weighted
                 # Example: {'0': ['1', '2']}

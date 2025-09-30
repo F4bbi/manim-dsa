@@ -302,6 +302,9 @@ class MCollection(ABC, VGroup, Labelable):
             else self._hidden_element.square
         )
 
+    def __getitem__(self, key: int):
+        return self.elements[key]
+
     @override
     def add_label(
         self,

@@ -332,3 +332,37 @@ class MArray(MCollection):
             )
 
         return self
+
+    @override_animate(add_indexes)
+    def _add_indexes_animation(
+        self,
+        direction: Vector3D = UP,
+        buff: float = DEFAULT_MOBJECT_TO_MOBJECT_BUFFER,
+        anim_args: dict = None,
+    ) -> Animation:
+        """Animates the addition of indices to each element in the array.
+
+        Parameters
+        ----------
+        direction : :class:`~manim.typing.Vector3D`, optional
+            The direction in which to display the indices relative to the elements.
+            Default is ``UP``.
+        buff : float, optional
+            The buffer distance between the element and its index.
+            Default is ``DEFAULT_MOBJECT_TO_MOBJECT_BUFFER``.
+        anim_args : dict, optional
+            Additional arguments for the animation. Default is ``None``.
+
+        Returns
+        -------
+        :class:`~manim.animation.creation.Create`
+            The animation showing the indices being added to each element.
+
+        Raises
+        ------
+        Exception
+            If the specified direction is parallel to the array's growth direction.
+        """
+        self.add_indexes(direction, buff)
+        indexes = VGroup(*[elem.index for elem in self.elements])
+        return Create(indexes, **anim_args)

@@ -142,57 +142,6 @@ class MGraph(VDict, Labelable):
             """
             return self.label is not None
 
-        @override
-        def highlight(
-            self,
-            stroke_color: ManimColor = RED,
-            stroke_width: float = 8,
-        ) -> Self:
-            """Highlights the edge with a specified color and stroke width.
-
-            Parameters
-            ----------
-            stroke_color : :class:`~manim.utils.color.ManimColor`, optional
-                The color to be used for highlighting the edge. Defaults to ``RED``.
-            stroke_width : float, optional
-                The width of the stroke used for highlighting. Defaults to ``8``.
-
-            Returns
-            -------
-            self
-                The instance of the :class:`MGraph.Edge` with the applied highlight.
-            """
-            self.set_highlight(stroke_color, stroke_width)
-            self.highlighting.move_to(self.line)
-            self += self.highlighting
-            return self
-
-        @override_animate(highlight)
-        def _highlight_animation(
-            self,
-            stroke_color: ManimColor = RED,
-            stroke_width: float = 8,
-            anim_args: dict = None,
-        ) -> Create:
-            """Returns the animation for highlighting the edge.
-
-            Parameters
-            ----------
-            stroke_color : :class:`~manim.utils.color.ManimColor`, optional
-                The color to be used for highlighting. Defaults to ``RED``.
-            stroke_width : float, optional
-                The width of the stroke used for highlighting. Defaults to ``8``.
-            anim_args : dict, optional
-                Additional arguments to be passed to the animation. Defaults to ``None``.
-
-            Returns
-            -------
-            :class:`~manim.animation.creation.Create`
-                The animation that highlights the edge.
-            """
-            self.highlight(stroke_color, stroke_width)
-            return Create(self.highlighting, **anim_args)
-
         def set_highlight(
             self,
             stroke_color: ManimColor = RED,
@@ -579,7 +528,7 @@ class MGraph(VDict, Labelable):
         node1_name: str,
         node2_name: str,
         weight: float = None,
-        label_distance: float = 0.2,
+        label_distance: float = 0.25,
     ) -> Self:
         """Adds a new edge between two nodes in the graph.
 
@@ -636,7 +585,7 @@ class MGraph(VDict, Labelable):
                 self.style.start_distance,
             )
             if weight:
-                new_edge.weighted(new_edge.label, label_distance)
+                new_edge_rev_node.weighted(new_edge.label, label_distance)
 
             self.remove(edge_name_rev)
             self.edges[edge_name_rev] = new_edge_rev_node
