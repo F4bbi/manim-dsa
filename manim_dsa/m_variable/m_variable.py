@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from copy import deepcopy
 from typing import Any
 
 from manim import *
@@ -26,7 +27,7 @@ class MVariable(MElement, Labelable):
         value: Any,
         style: MVariableStyle._DefaultStyle = MVariableStyle.DEFAULT,
     ):
-        self.style = style
+        self.style = deepcopy(style)
         super().__init__(
             Rectangle(**self.style.square), Text(str(value), **self.style.value)
         )

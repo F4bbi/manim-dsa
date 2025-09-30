@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from copy import deepcopy
 from math import *
 from typing import Self, override
 
@@ -38,7 +39,7 @@ class MGraph(VDict, Labelable):
 
         self.nodes: dict[str, MGraph.Node] = {}
         self.edges: dict[tuple[str, str], MGraph.Edge] = {}
-        self.style = style
+        self.style = deepcopy(style)
 
         nxGraph = get_nx_graph(graph)
 

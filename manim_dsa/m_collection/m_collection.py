@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC
+from copy import deepcopy
 from typing import Any, Self, override
 
 from manim import *
@@ -95,12 +96,13 @@ class MCollection(ABC, VGroup, Labelable):
     ):
         super().__init__()
         self.elements = []
-        self.style = style
+        self.style = deepcopy(style)
         self.margin = margin
 
+        # Necessary for positioning a new MElement in case of empty array
         self._hidden_element = MElement(
-            Rectangle(**style.square).set_opacity(0),
-            Text("0", **style.value).set_opacity(0),
+            Rectangle(**self.style.square).set_opacity(0),
+            Text("0", **self.style.value).set_opacity(0),
         )
         self += self._hidden_element
 
