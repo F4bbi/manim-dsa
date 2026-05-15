@@ -31,17 +31,13 @@ class MStack(MCollection):
     ):
         super().__init__(arr, UP, buff, style)
 
+        self.buff = buff
         elem = self.elements[0].square if self.elements else self._hidden_element.square
-        container_height = (
-            (len(arr) + 3) * elem.height
-            if arr
-            else self._hidden_element.square.height * 7
-        )
 
         self.bottom_line: Line = Line(ORIGIN, [elem.width + 2 * buff, 0, 0]).next_to(
             elem, DOWN, buff
         )
-        self.left_line: Line = Line([0, container_height, 0], ORIGIN).next_to(
+        self.left_line: Line = Line(ORIGIN, ORIGIN).next_to(
             self.bottom_line, UL, 0
         )
         self.right_line: Line = self.left_line.copy().next_to(self.bottom_line, UR, 0)
@@ -53,6 +49,9 @@ class MStack(MCollection):
         self.move_to(ORIGIN)
         self.spawnpoint: Point3D = None
 
+        # Update container to match initial elements
+        self._update_container_size()
+
         # When the stack is scaled or moved,
         # the spawn_point of the objects must be changed as well
         def update_stack_attr(obj):
@@ -60,6 +59,23 @@ class MStack(MCollection):
             obj.margin = buff * self._hidden_element.square.width
 
         self.add_updater(update_stack_attr)
+
+    def _compute_container_height(self) -> float:
+        """Compute the required container height based on element count."""
+        elem = self.elements[0].square if self.elements else self._hidden_element.square
+        if self.elements:
+            return (len(self.elements) + 3) * elem.height
+        return self._hidden_element.square.height * 7
+
+    def _update_container_size(self) -> None:
+        """Resize the container lines to fit all current elements."""
+        new_height = self._compute_container_height()
+        for line in [self.left_line, self.right_line]:
+            start = line.get_start()
+            line.put_start_and_end_on(
+                [start[0], start[1] + new_height - line.get_length(), start[2]],
+                start,
+            )
 
     def get_spawn_point(self) -> Point3D:
         """Calculates the drop point for new elements in the stack.
@@ -74,6 +90,11 @@ class MStack(MCollection):
             + (UP * self.right_line.height)
             + UP * self._hidden_element.square.width
         )
+
+    def _append_helper(self, new_element: MElement) -> None:
+        """Append element and resize container to fit."""
+        super()._append_helper(new_element)
+        self._update_container_size()
 
     def append(self, value: Any) -> Self:
         """Appends a new value to the top of the stack.
@@ -126,7 +147,9 @@ class MStack(MCollection):
         self
             The instance of the :class:`MStack` with the top element removed.
         """
-        return super().pop(len(self.elements) - 1)
+        result = super().pop(len(self.elements) - 1)
+        self._update_container_size()
+        return result
 
     @override_animate(pop)
     def _pop_animation(self, anim_args: dict = None) -> Succession:
