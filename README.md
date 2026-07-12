@@ -4,8 +4,9 @@
     <br />
     <a href="https://pypi.org/project/manim-dsa/"><img src="https://img.shields.io/pypi/v/manim-dsa.svg?style=flat&logo=pypi" alt="PyPI Latest Release"></a>
     <a href="http://choosealicense.com/licenses/mit/"><img src="https://img.shields.io/badge/license-MIT-red.svg?style=flat" alt="MIT License"></a>
-    <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black">
-    <a href="https://pepy.tech/project/manim-dsa"><img src="https://pepy.tech/badge/manim-dsa" alt="Downloads"> </a>
+    <a href="https://manim-dsa.readthedocs.io/en/latest/"><img src="https://readthedocs.org/projects/manim-dsa/badge/?version=latest&style=flat" alt="ReadTheDocs Status"></a>
+    <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black"></a>
+    <a href="https://pepy.tech/project/manim-dsa"><img src="https://pepy.tech/badge/manim-dsa" alt="Downloads"></a>
     <br />
     <br />
     <i>A Manim plugin designed to animate common data structures and algorithms</i>

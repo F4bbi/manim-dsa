@@ -12,7 +12,7 @@ class IterativeDfs(Scene):
     def dfs(self, graph, start):
         mGraph = (
             MGraph(graph, style=MGraphStyle.PURPLE)
-            .scale(0.7)
+            .scale(0.9)
             .node_layout()
             .to_edge(LEFT)
             .shift(DR)
@@ -113,41 +113,6 @@ class ShowBackwardsEdge(Scene):
 
         self.play(Create(mGraph))
         self.play(mGraph.animate.show_backward_edge("0", "2", 3, 0))
-        self.wait()
-
-
-"""
-class NodeLayout(Scene):
-    def construct(self):
-        graph = {
-            "0": ["1", "2"],
-            "1": ["3", "4"],
-            "2": ["5", "6"],
-            "3": [],
-            "4": [],
-            "5": [],
-            "6": [],
-        }
-        mGraph = MTree(graph, "0")
-        self.play(Create(mGraph))
-        self.wait()
-"""
-
-
-class Test(Scene):
-    def construct(self):
-        graph = {
-            "0": ["1", "2"],
-            "1": [],
-            "2": [],
-        }
-        nodes_and_pos = {
-            "0": LEFT * 5,
-            "1": RIGHT,
-            "2": DOWN,
-        }
-        mGraph = MGraph(graph, nodes_and_pos)
-        self.play(Create(mGraph))
         self.wait()
 
 

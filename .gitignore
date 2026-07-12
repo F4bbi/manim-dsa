@@ -139,3 +139,4 @@ dist/
 
 # Ignore the built dependencies
 third_party/*
+rendering_times.csv

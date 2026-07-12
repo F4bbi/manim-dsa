@@ -11,13 +11,13 @@ from manim_dsa.utils.utils import *
 
 
 class MIndexedElement(MElement):
-    """An extension of the MElement class that includes an index for each element.
+    """An extension of the :class:`MElement` class that includes an index for each element.
 
     Parameters
     ----------
-    square : Rectangle
+    square : :class:`~manim.mobject.geometry.polygram.Rectangle`
         The rectangle representing the visual boundary of the element.
-    value : Text
+    value : :class:`~manim.mobject.text.text_mobject.Text`
         The text representing the value contained in the element.
     """
 
@@ -39,7 +39,7 @@ class MIndexedElement(MElement):
             The instance of the :class:`MIndexedElement` with the updated index.
         """
         self -= self.index
-        self.index = utils.set_text(self.index, str(new_index))
+        self.index = set_text(self.index, str(new_index))
         self += self.index
         return self
 
@@ -54,13 +54,13 @@ class MIndexedElement(MElement):
 
         Parameters
         ----------
-        index : Text
+        index : :class:`~manim.mobject.text.text_mobject.Text`
             The text object representing the index.
-        direction : Vector3D, optional
-            The direction in which to position the index relative to the element. Default is UP.
+        direction : :class:`~manim.typing.Vector3D`, optional
+            The direction in which to position the index relative to the element. Default is ``UP``.
         buff : float, optional
             The distance (buffer) between the element and the index.
-            Default is DEFAULT_MOBJECT_TO_MOBJECT_BUFFER.
+            Default is ``DEFAULT_MOBJECT_TO_MOBJECT_BUFFER``.
 
         Returns
         -------
@@ -73,18 +73,18 @@ class MIndexedElement(MElement):
 
 
 class MArray(MCollection):
-    """Manim Array: a class for visualizing the array structure using the Manim animation engine.
+    """Manim Array: a class for visualizing the array data structure using the Manim animation engine.
 
     Parameters
     ----------
     arr : list, optional
         The initial list of values to populate the array. Default is an empty list.
-    direction : Vector3D, optional
-        The direction in which to arrange the elements. Default is RIGHT.
+    direction : :class:`~manim.typing.Vector3D`, optional
+        The direction in which to arrange the elements. Default is ``RIGHT``.
     margin : float, optional
         The margin between elements in the array. Default is 0.
-    style : MArrayStyle._DefaultStyle, optional
-        The style configuration for the elements. Default is MArrayStyle.DEFAULT.
+    style : :class:`MArrayStyle._DefaultStyle`, optional
+        The style configuration for the elements. Default is ``MArrayStyle.DEFAULT``.
     """
 
     def __init__(
@@ -133,7 +133,7 @@ class MArray(MCollection):
         return self
 
     @override_animate(append)
-    def _append_animation(self, value: Any, anim_args=None) -> Animation:
+    def _append_animation(self, value: Any, anim_args: dict = None) -> Animation:
         """Animates the addition of a new element to the array.
 
         Parameters
@@ -141,11 +141,11 @@ class MArray(MCollection):
         value : Any
             The value to append. It will be converted to a string representation.
         anim_args : dict, optional
-            Additional arguments for the animation. Default is None.
+            Additional arguments for the animation. Default is ``None``.
 
         Returns
         -------
-        Animation
+        :class:`~manim.animation.creation.Write`
             An animation that displays the new element being written into the array.
         """
         return super()._append_animation(value, anim_args)
@@ -163,7 +163,7 @@ class MArray(MCollection):
         Parameters
         ----------
         index : int, optional
-            The index of the element to be removed. Default is -1, which removes the last element.
+            The index of the element to be removed. Default is ``-1``, which removes the last element.
 
         Returns
         -------
@@ -181,19 +181,19 @@ class MArray(MCollection):
         return self
 
     @override_animate(pop)
-    def _pop_animation(self, index: int = -1, anim_args=None) -> Animation:
+    def _pop_animation(self, index: int = -1, anim_args: dict = None) -> Animation:
         """Animates the removal of an element from the array.
 
         Parameters
         ----------
         index : int, optional
-            The index of the element to be removed. Default is -1, which removes the last element.
+            The index of the element to be removed. Default is ``-1``, which removes the last element.
         anim_args : dict, optional
-            Additional arguments for the animation. Default is None.
+            Additional arguments for the animation. Default is ``None``.
 
         Returns
         -------
-        Animation
+        :class:`~manim.animation.composition.Succession`
             An animation showing the element being removed and the indices being updated.
         """
         popped_element = self._logic_pop(index)
@@ -292,17 +292,17 @@ class MArray(MCollection):
 
         Parameters
         ----------
-        direction : Vector3D, optional
+        direction : :class:`~manim.typing.Vector3D`, optional
             The direction in which to display the indices relative to the elements.
-            Default is UP.
+            Default is ``UP``.
         buff : float, optional
             The buffer distance between the element and its index.
-            Default is DEFAULT_MOBJECT_TO_MOBJECT_BUFFER.
+            Default is ``DEFAULT_MOBJECT_TO_MOBJECT_BUFFER``.
 
         Returns
         -------
         self
-            The instance of the :class:`MArray` with the specified element removed.
+            The instance of the :class:`MArray` with the indices added to each element.
 
         Raises
         ------
@@ -332,3 +332,37 @@ class MArray(MCollection):
             )
 
         return self
+
+    @override_animate(add_indexes)
+    def _add_indexes_animation(
+        self,
+        direction: Vector3D = UP,
+        buff: float = DEFAULT_MOBJECT_TO_MOBJECT_BUFFER,
+        anim_args: dict = None,
+    ) -> Animation:
+        """Animates the addition of indices to each element in the array.
+
+        Parameters
+        ----------
+        direction : :class:`~manim.typing.Vector3D`, optional
+            The direction in which to display the indices relative to the elements.
+            Default is ``UP``.
+        buff : float, optional
+            The buffer distance between the element and its index.
+            Default is ``DEFAULT_MOBJECT_TO_MOBJECT_BUFFER``.
+        anim_args : dict, optional
+            Additional arguments for the animation. Default is ``None``.
+
+        Returns
+        -------
+        :class:`~manim.animation.creation.Create`
+            The animation showing the indices being added to each element.
+
+        Raises
+        ------
+        Exception
+            If the specified direction is parallel to the array's growth direction.
+        """
+        self.add_indexes(direction, buff)
+        indexes = VGroup(*[elem.index for elem in self.elements])
+        return Create(indexes, **anim_args)

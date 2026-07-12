@@ -29,6 +29,7 @@ Here's an example that creates a ``MArray`` with a list of five numbers. By defa
             self.wait()
 
 .. _customizing_a_marray:
+
 Customizing a MArray
 --------------------
 
@@ -73,6 +74,32 @@ In the following example, after creating a ``MArray``, we use the ``add_indexes(
             )
             self.play(Create(mArray))
             self.wait()
+
+
+Updating the value of an element in a MArray
+--------------------------------------------
+The ``set_value()`` method allows you to change the value of an element in a MArray. As stated earlier, it is sufficient to use the ``[]`` operator to access the element and then call the ``set_value()`` method on it.
+
+In the example below, we create a ``MArray`` with five elements and then use the ``set_value()`` method to update the third element to a new value.
+
+.. manim:: SetValue
+    :quality: high
+
+    from manim_dsa import *
+
+    class SetValue(Scene):
+        def construct(self):
+            mArray = (
+                MArray(
+                    [1, 2, 3, 4, 5],
+                    style=MArrayStyle.BLUE
+                )
+                .add_indexes()
+            )
+            self.play(Create(mArray))
+            self.play(mArray[2].animate.set_value(10))
+            self.wait()
+
 
 Appending an element to a MArray
 --------------------------------
@@ -122,4 +149,30 @@ In the example below, we create a ``MArray`` with indexes and use the ``pop()`` 
             )
             self.play(Create(mArray))
             self.play(mArray.animate.pop(2))
+            self.wait()
+
+
+Swapping elements in a MArray
+-----------------------------
+
+The ``swap()`` method allows you to swap two elements in a MArray by specifying their indices. This can be useful for visualizing algorithms that involve element rearrangement.
+
+In the example below, we create a ``MArray`` with five elements and then use the ``swap()`` method to swap the second and fourth elements.
+
+.. manim:: Swap
+    :quality: high
+
+    from manim_dsa import *
+
+    class Swap(Scene):
+        def construct(self):
+            mArray = (
+                MArray(
+                    [1, 2, 3, 4, 5],
+                    style=MArrayStyle.BLUE
+                )
+                .add_indexes()
+            )
+            self.play(Create(mArray))
+            self.play(mArray.animate.swap(1, 3))
             self.wait()

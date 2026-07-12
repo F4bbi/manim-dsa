@@ -5,7 +5,7 @@ Manim Graph - MGraph
 --------------------
 
 In this section, you'll find all the methods available to manipulate a ``MGraph`` (short for Manim Graph 😄).
-As stated in home#acknowledgemnts, this part of the library is a refactoring of the `ManimGraphLibrary <https://verdianapasqualini.github.io/ManimGraphLibrary>`_, a project by Verdiana Pasqualini focused on graph visualization. Check it out! 🔥
+As stated in the acknowledgements, this part of the library is a refactoring of the `ManimGraphLibrary <https://verdianapasqualini.github.io/ManimGraphLibrary>`_, a project by Verdiana Pasqualini focused on graph visualization. Check it out! 🔥
 
 Key actions of ``MGraph`` include adding and removing nodes and edges, adding weights to the edges, changing the layout of the graph and other cool operations. Like all ``MObject`` structures, you can animate these methods using the ``.animate`` method, allowing you to animate each operation provided by Manim DSA.
 Otherwise, methods will run without any animations.
@@ -20,14 +20,15 @@ You can create a graph by initializing an ``MGraph`` object. The first parameter
 .. code-block:: python
 
     type GraphType = (
-       # Example: [['1', '2'], ['0'], ['0']] represents (1)---(0)---(2)
-       list[list[str]]
-       # Example: {'A': ['B', 'C'], 'B': [], 'C': []} represents (B)<--(A)-->(C)
-       | dict[str, list[str]]
-       # Example: [[('1', 3), ('2', 1)], [('0', 3)], [('0', 1)]] represents (1)--<3>-(0)-<1>--(2)
-       | list[list[tuple[str, str | int]]]
-       # Example: {'A': [('B', 9), ('C', 2)], 'B': [], 'C': []} represents (B)<-<9>-(A)-<2>->(C)
-       | dict[str, list[tuple[str, str | int]]]
+        nx.DiGraph
+        # Example: [['1','2'], ['0'], ['0']] is (1)---(0)---(2)
+        | list[list[str]]
+        # Example: {'A':['B','C'], 'B':[], 'C':[]]} is (B)<--(A)-->(C)
+        | dict[str, list[str]]
+        # Example: [[('1', 3), ('2', 1)], [('0', 3)], [('0', 1)]] is (1)--<3>-(0)-<1>--(2)
+        | list[list[tuple[str, str | int]]]
+        # Example: {'A':[('B', 9), ('C', 2)], 'B':[], 'C':[]} is (B)<-<9>-(A)-<2>->(C)
+        | dict[str, list[tuple[str, str | int]]]
     )
 
 The second parameter optionally allows you to specify the position of each node using a dictionary where the key is the node name and the value is its position. If no positions are specified, a default arrangement is computed using the ``node_layout()`` function (see it's dedicated section :ref:`node_layout`).
@@ -48,7 +49,6 @@ Below are two examples of creating a graph:
         def construct(self):
             mGraph = MGraph(
                 [['1', '2'], ['0'], ['0']],
-                style=MGraphStyle.BLUE
             )
             self.play(Create(mGraph))
             self.wait()
@@ -75,8 +75,43 @@ Below are two examples of creating a graph:
             }
             mGraph = MGraph(
                 graph,
-                nodes_and_positions,
-                style=MGraphStyle.PURPLE
+                nodes_and_positions
+            )
+            self.play(Create(mGraph))
+            self.wait()
+
+.. _customizing_a_mgraph:
+
+Customizing a MGraph
+--------------------
+
+ManimDSA provides various options for customizing the colors and styles of a MGraph. You can use these options by passing a predefined style configuration from the ``MGraphStyle`` class using the ``style`` parameter. Refer to ``MGraphStyle`` for more details. Alternatively, you can define a custom style to suit your needs.
+
+In the following example, we use the ``PURPLE`` style for the ``MGraph``.
+
+.. manim:: CustomCreation
+    :quality: high
+
+    from manim_dsa import *
+
+    class CustomCreation(Scene):
+        def construct(self):
+            graph = {
+                'a':[('b', 4), ('c', 5)], 'b':[('c', 7), ('d', 2)],
+                'c':[('b', 7), ('e', 99)], 'd':[('b', 2), ('e', 3)],
+                'e':[('c', 99), ('d', 3)], 'f':[('d', 5), ('e', 1)]
+            }
+            nodes_and_positions = {
+                'a': LEFT * 4,
+                'b': LEFT * 2 + UP * 2,
+                'c': LEFT* 2 + DOWN * 2,
+                'd': RIGHT * 2 + UP * 2,
+                'e': RIGHT * 2 + DOWN * 2,
+                'f': RIGHT * 4
+            }
+            mGraph = MGraph(
+                graph,
+                nodes_and_positions
             )
             self.play(Create(mGraph))
             self.wait()
@@ -172,7 +207,7 @@ The ``add_curved_edge()`` method allows you to add a curved edge between two nod
 - The curvature of the edge.
 - The starting angle of the edge relative to the node.
 
-In the example below, we create a MGraph with three nodes and then use the ``add_curved_edge()`` method twice:
+In the example below, we create a ``MGraph`` with three nodes and then use the ``add_curved_edge()`` method twice:
 
 - The first curved edge is directed and has no weight.
 - The second curved edge is undirected and has a weight of ``2``.
@@ -262,6 +297,8 @@ In the example below, we create a MGraph with three nodes and use the ``show_bac
             #self.play(mGraph.animate.show_backward_edge("0", "2", 3, 0))
             self.play(Create(Text("FIX ME").scale(3)))
             self.wait()
+
+.. _node_layout:
 
 Automatically positioning nodes in a MGraph
 -------------------------------------------

@@ -11,16 +11,16 @@ from manim_dsa.utils.utils import *
 
 
 class MStack(MCollection):
-    """Manim Stack: a class for visualizing the stack structure using the Manim animation engine.
+    """Manim Stack: a class for visualizing the stack data structure using the Manim animation engine.
 
     Parameters
     ----------
     arr : list, optional
         The initial list of values to populate the stack. Default is an empty list.
     buff : float, optional
-        The buffer (margin) between elements in the stack. Default is 0.1.
-    style : MStackStyle._DefaultStyle, optional
-        The style configuration for the stack elements. Default is MStackStyle.DEFAULT.
+        The buffer (margin) between elements in the stack. Default is ``0.1``.
+    style : :class:`MStackStyle._DefaultStyle`, optional
+        The style configuration for the stack elements. Default is ``MStackStyle.DEFAULT``.
     """
 
     def __init__(
@@ -66,7 +66,7 @@ class MStack(MCollection):
 
         Returns
         -------
-        Point3D
+        :class:`~manim.typing.Point3D`
             The spawn point position in 3D space.
         """
         return (
@@ -91,7 +91,7 @@ class MStack(MCollection):
         return super().append(value)
 
     @override_animate(append)
-    def _append_animation(self, value: Any, anim_args=None) -> Succession:
+    def _append_animation(self, value: Any, anim_args: dict = None) -> Succession:
         """Creates an animation for appending a new value to the stack.
 
         Parameters
@@ -103,7 +103,7 @@ class MStack(MCollection):
 
         Returns
         -------
-        Succession
+        :class:`~manim.animation.composition.Succession`
             The animation object representing the append operation.
         """
         self.append(value)
@@ -129,7 +129,7 @@ class MStack(MCollection):
         return super().pop(len(self.elements) - 1)
 
     @override_animate(pop)
-    def _pop_animation(self, anim_args=None) -> Succession:
+    def _pop_animation(self, anim_args: dict = None) -> Succession:
         """Creates an animation for removing the top element from the stack.
 
         Parameters
@@ -139,7 +139,7 @@ class MStack(MCollection):
 
         Returns
         -------
-        Succession
+        :class:`~manim.animation.composition.Succession`
             The animation object representing the pop operation.
         """
         popped_element = self.elements[-1].copy()
@@ -162,15 +162,15 @@ class MStack(MCollection):
 
         Parameters
         ----------
-        text : Text
+        text : :class:`~manim.mobject.text.text_mobject.Text`
             The label text.
-        direction : Vector3D, optional
-            The direction in which to position the label. Default is UP.
+        direction : :class:`~manim.typing.Vector3D`, optional
+            The direction in which to position the label. Default is ``UP``.
         buff : float, optional
             The distance (buffer) between the stack and the label. Default is 0.5.
         **kwargs :
-            Additional keyword arguments that are passed to the function next_to() of the
-            underlying add_label method.
+            Additional keyword arguments that are passed to the ``next_to()`` method of the
+            underlying ``add_label`` method.
 
         Returns
         -------

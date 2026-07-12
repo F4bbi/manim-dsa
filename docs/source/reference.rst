@@ -14,3 +14,4 @@ Module Index
 
    reference/data_structures
    reference/utils
+   reference/constants
