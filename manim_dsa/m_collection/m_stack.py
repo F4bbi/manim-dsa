@@ -55,6 +55,20 @@ class MStack(MCollection):
 
         self.add_updater(update_stack_attr)
 
+    def _grow_container(self) -> None:
+        """Extends the container's side lines upwards if the elements exceed them."""
+        if not hasattr(self, "container") or not self.elements:
+            return
+
+        top_elem = self.elements[-1].square
+        required_top = top_elem.get_top()[1] + self.margin
+        for line in (self.left_line, self.right_line):
+            start, end = line.get_start_and_end()
+            if required_top > start[1]:
+                line.put_start_and_end_on(
+                    np.array([start[0], required_top, start[2]]), end
+                )
+
     def get_spawn_point(self) -> Point3D:
         """Calculates the drop point for new elements in the stack.
 
@@ -82,7 +96,9 @@ class MStack(MCollection):
         self
             The instance of the :class:`MStack` with the newly appended element.
         """
-        return super().append(value)
+        super().append(value)
+        self._grow_container()
+        return self
 
     @override_animate(append)
     def _append_animation(self, value: Any, anim_args: dict = None) -> Succession:
@@ -100,12 +116,29 @@ class MStack(MCollection):
         :class:`~manim.animation.composition.Succession`
             The animation object representing the append operation.
         """
+        old_top = self.left_line.get_start()[1]
         self.append(value)
         new_pos = self.elements[-1].get_center()
-        self.elements[-1].move_to(self.spawnpoint)
+        # The spawn point is recomputed instead of using the cached
+        # self.spawnpoint, so that it lies above the walls even when
+        # the append made the container grow
+        self.elements[-1].move_to(self.get_spawn_point())
+
+        # The wall growth is animated together with the element creation:
+        # if it ran as a separate step, the new element (already part of the
+        # group) would be visible before its Create animation starts
+        spawn_anims = [Create(self.elements[-1])]
+        growth = self.left_line.get_start()[1] - old_top
+        if growth > 0:
+            # Revert the walls to their pre-append height so the growth
+            # can be animated instead of jumping instantly
+            for line in (self.left_line, self.right_line):
+                start, end = line.get_start_and_end()
+                line.put_start_and_end_on(start + DOWN * growth, end)
+                spawn_anims.append(ApplyMethod(line.put_start_and_end_on, start, end))
 
         return Succession(
-            Create(self.elements[-1]),
+            AnimationGroup(*spawn_anims),
             ApplyMethod(self.elements[-1].move_to, new_pos),
             **anim_args,
             group=self,
