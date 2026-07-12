@@ -1,14 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, override
-
-from manim import *
-from manim.typing import Vector3D
-
-from manim_dsa.constants import *
 from manim_dsa.m_collection.m_collection import *
-from manim_dsa.utils.utils import *
-
 
 class MIndexedElement(MElement):
     """An extension of the :class:`MElement` class that includes an index for each element.

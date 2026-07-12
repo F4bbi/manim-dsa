@@ -8,6 +8,7 @@ readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
 	"manim>=0.19.0",
+	"typing-extensions>=4.13.2",
 ]
 packages = [{include = "manim_dsa"}]
 

@@ -144,19 +144,19 @@ The following animations demonstrate both an iterative implementation of DFS usi
             }
 
             nodes_and_positions = {
-                '0': LEFT * 6,
-                '1': LEFT * 4 + UP,
-                '2': LEFT * 4 + DOWN,
-                '3': LEFT * 2,
-                '4': LEFT * 2 + UP * 2,
-                '5': ORIGIN,
-                '6': LEFT * 2 + DOWN * 2,
-                '7': RIGHT * 2 + DOWN * 2,
-                '8': RIGHT * 2 + UP * 2,
-                '9': RIGHT * 4 + UP * 2,
+                "0": LEFT * 5 + DOWN / 2,
+                "1": LEFT * 3 + UP / 2,
+                "2": LEFT * 3 + DOWN * 1.5,
+                "3": LEFT + DOWN / 2,
+                "4": LEFT + UP * 1.5,
+                "5": RIGHT + DOWN / 2,
+                "6": LEFT + DOWN * 2.5,
+                "7": RIGHT * 3 + DOWN * 2.5,
+                "8": RIGHT * 3 + UP * 1.5,
+                "9": RIGHT * 5 + UP * 1.5,
             }
             
-            mGraph = MGraph(graph, nodes_and_positions, style=MGraphStyle.BLUE).move_to(ORIGIN).shift(DOWN/2)
+            mGraph = MGraph(graph, nodes_and_positions, style=MGraphStyle.BLUE)
 
             title = Text("Depth-First Search in a graph", font="Cascadia Code").to_edge(UP)
 

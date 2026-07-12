@@ -1,14 +1,8 @@
 from __future__ import annotations
 
-from typing import Any, override
+from manim.typing import Point3D
 
-from manim import *
-from manim.typing import Point3D, Vector3D
-
-from manim_dsa.constants import *
 from manim_dsa.m_collection.m_collection import *
-from manim_dsa.utils.utils import *
-
 
 class MStack(MCollection):
     """Manim Stack: a class for visualizing the stack data structure using the Manim animation engine.

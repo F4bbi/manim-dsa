@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from copy import deepcopy
 from math import *
-from typing import Self, override
+from typing import Self
 
 import networkx as nx
 from manim import *

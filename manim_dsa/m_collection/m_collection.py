@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from abc import ABC
 from copy import deepcopy
-from typing import Any, Self, override
+from typing import Any, Self
+from typing_extensions import override
 
 from manim import *
 from manim.typing import Vector3D
