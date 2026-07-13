@@ -293,9 +293,8 @@ In the example below, we create a MGraph with three nodes and use the ``show_bac
                 style=MGraphStyle.GREEN
             )
 
-            #self.play(Create(mGraph))
-            #self.play(mGraph.animate.show_backward_edge("0", "2", 3, 0))
-            self.play(Create(Text("FIX ME").scale(3)))
+            self.play(Create(mGraph))
+            self.play(mGraph.animate.show_backward_edge("0", "2", 3, 0))
             self.wait()
 
 .. _node_layout:

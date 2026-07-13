@@ -765,7 +765,6 @@ class MGraph(VDict, Labelable):
             **anim_args,
         )
 
-    # TODO
     def show_backward_edge(
         self,
         node1_name: str,
@@ -776,6 +775,31 @@ class MGraph(VDict, Labelable):
         node_angle: float = PI / 6,
         arc_angle: float = PI / 6,
     ) -> Self:
+        """Replaces the edge between two nodes with a pair of curved edges,
+        showing both the forward and the backward direction with their weights.
+
+        Parameters
+        ----------
+        node1_name : str
+            The name of the first node.
+        node2_name : str
+            The name of the second node.
+        forward_weight : float
+            The weight of the edge from the first node to the second node.
+        backward_weight : float
+            The weight of the edge from the second node to the first node.
+        label_distance : float, optional
+            The distance from the edge where the label should be placed. Defaults to ``0.3``.
+        node_angle : float, optional
+            The start angle of the arc between the two nodes. Defaults to ``PI/6``.
+        arc_angle : float, optional
+            The angle of the arc between the two nodes. Defaults to ``PI/6``.
+
+        Returns
+        -------
+        self
+            The updated instance of the :class:`MGraph` with the backward edge shown.
+        """
         edge_name = (node1_name, node2_name)
         edge_name_rev = (node2_name, node1_name)
 
@@ -785,7 +809,15 @@ class MGraph(VDict, Labelable):
         line = ArcBetweenPoints(LEFT, RIGHT, **self.style.edge_line, angle=arc_angle)
         arrow = ArrowTriangleFilledTip(**self.style.edge_tip)
 
-        new_edge_1 = self.CurvedEdge(line, node1, node2, arrow, node_angle, arc_angle)
+        new_edge_1 = self.CurvedEdge(
+            line,
+            node1,
+            node2,
+            arrow,
+            self.style.start_distance,
+            node_angle,
+            arc_angle,
+        )
         new_edge_1.weighted(
             Text(
                 str(forward_weight),
@@ -802,7 +834,9 @@ class MGraph(VDict, Labelable):
             node2,
             node1,
             arrow,
+            self.style.start_distance,
             node_angle,
+            arc_angle,
         )
         new_edge_2.weighted(
             Text(
@@ -812,7 +846,12 @@ class MGraph(VDict, Labelable):
             label_distance,
         )
 
-        self.edges[edge_name] = self[edge_name] = new_edge_1
+        self.remove(edge_name)
+        self.edges[edge_name] = new_edge_1
+        self.add([(edge_name, new_edge_1)])
+
+        if edge_name_rev in self.edges:
+            self.remove(edge_name_rev)
         self.edges[edge_name_rev] = new_edge_2
         self.add([(edge_name_rev, new_edge_2)])
         return self
@@ -843,15 +882,22 @@ class MGraph(VDict, Labelable):
             arc_angle,
         )
 
-        return Succession(
-            ReplacementTransform(
-                old_edge,
-                VGroup(
-                    self.edges[edge_name],
-                    self.edges[edge_name_rev],
-                ),
-                **anim_args,
-            )
+        new_edge_1 = self.edges[edge_name]
+        new_edge_2 = self.edges[edge_name_rev]
+
+        # The new edges are already part of the graph, so they must be the
+        # animated mobjects themselves: each one starts with the old edge's
+        # appearance and morphs into its final shape, so that the old edge
+        # visually splits into the forward and backward edges
+        target_1 = new_edge_1.copy()
+        target_2 = new_edge_2.copy()
+        new_edge_1.become(old_edge.copy())
+        new_edge_2.become(old_edge.copy())
+
+        return AnimationGroup(
+            Transform(new_edge_1, target_1),
+            Transform(new_edge_2, target_2),
+            **anim_args,
         )
 
     def _node_layout(
